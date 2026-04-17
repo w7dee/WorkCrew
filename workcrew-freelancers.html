@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkCrew – تصفح الحرفيين والفرق</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:   { DEFAULT: '#0B1F3A', 800: '#0e2748', 700: '#122d55', 600: '#1a3e72' },
+            amber:  { DEFAULT: '#F5A623', bright: '#FFB830', dark: '#D4891A' },
+            cream:  '#F9F6F0',
+            steel:  '#6B8CAE',
+          },
+          fontFamily: {
+            cairo:   ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="workcrew-style.css" />
+</head>
+<body>
+
+<nav id="navbar" class="py-4 px-6 md:px-12 bg-navy shadow-lg" style="background: rgba(11,31,58,.97);">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="logo-text text-white">
+      Work<span class="logo-dot">Crew</span>
+    </a>
+    <ul class="hidden md:flex items-center gap-8">
+      <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+      <li><a href="workcrew-freelancers.html" class="nav-link" style="color:var(--amber);">تصفح الحرفيين</a></li>
+      <li><a href="workcrew-jobs.html" class="nav-link">الطلبات المفتوحة</a></li>
+    </ul>
+    <div class="hidden md:block">
+      <a href="#" class="btn-navy" style="background:rgba(255,255,255,.1);">حسابي</a>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-32 pb-16 px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
+  <div class="mb-10 text-center md:text-right flex flex-col md:flex-row justify-between items-center gap-6">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black mb-3" style="font-family:'Tajawal',sans-serif; color:var(--navy);">
+        أفضل الحرفيين والفرق المتاحة
+      </h1>
+      <p class="text-gray-500">تصفح الملفات الشخصية، اقرأ التقييمات، واختر الأنسب لمشروعك.</p>
+    </div>
+    <div class="w-full md:w-auto flex gap-3">
+      <input type="text" placeholder="ابحث بالاسم أو التخصص..." class="p-3 rounded-xl border border-gray-200 focus:border-amber focus:ring-1 focus:ring-amber outline-none w-full md:w-64" />
+      <select class="p-3 rounded-xl border border-gray-200 outline-none bg-white">
+        <option>كل التخصصات</option>
+        <option>سباكة</option>
+        <option>كهرباء</option>
+        <option>نقاشة وديكور</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- Freelancer Card 1 -->
+    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
+      <span class="absolute top-4 left-4 bg-green-100 text-green-600 text-xs font-bold px-2 py-1 rounded-full">متاح للعمل</span>
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-16 h-16 rounded-full bg-navy flex items-center justify-center text-2xl text-white font-bold" style="background:var(--navy);">مح</div>
+        <div>
+          <h3 class="font-bold text-lg" style="font-family:'Tajawal',sans-serif; color:var(--navy);">محمد حسن</h3>
+          <p class="text-sm text-gray-500">فني سباكة معتمد • القاهرة</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-4 text-sm">
+        <div style="color:var(--amber);">★★★★★</div>
+        <span class="font-bold text-navy">4.9</span>
+        <span class="text-gray-400">(134 خدمة مكتملة)</span>
+      </div>
+      <p class="text-gray-600 text-sm mb-5 line-clamp-2">
+        متخصص في جميع أعمال السباكة وتأسيس شبكات المياه للمنازل والشركات بأحدث المعدات وضمان على العمل.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">تأسيس سباكة</span>
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">صيانة طوارئ</span>
+      </div>
+      <div class="flex gap-3">
+        <button class="btn-primary flex-1 justify-center text-sm py-2">وظفني الآن</button>
+        <button class="btn-outline flex-1 justify-center text-sm py-2" style="color:var(--navy); border-color:rgba(11,31,58,.2);">عرض الملف</button>
+      </div>
+    </div>
+
+    <!-- Freelancer Card 2 -->
+    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl text-navy font-bold" style="background:var(--amber);">إب</div>
+        <div>
+          <h3 class="font-bold text-lg flex items-center gap-1" style="font-family:'Tajawal',sans-serif; color:var(--navy);">
+            فريق الإبداع <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </h3>
+          <p class="text-sm text-gray-500">فريق مقاولات وتشطيبات • الإسكندرية</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-4 text-sm">
+        <div style="color:var(--amber);">★★★★★</div>
+        <span class="font-bold text-navy">4.8</span>
+        <span class="text-gray-400">(45 مشروع مكتمل)</span>
+      </div>
+      <p class="text-gray-600 text-sm mb-5 line-clamp-2">
+        فريق متكامل لتسليم الشقق والمحلات على المفتاح، نقاشة، ديكورات جيبسون بورد، وسيراميك.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">تشطيب كامل</span>
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">ديكورات</span>
+      </div>
+      <div class="flex gap-3">
+        <button class="btn-primary flex-1 justify-center text-sm py-2">وظفنا الآن</button>
+        <button class="btn-outline flex-1 justify-center text-sm py-2" style="color:var(--navy); border-color:rgba(11,31,58,.2);">عرض الملف</button>
+      </div>
+    </div>
+
+    <!-- Freelancer Card 3 -->
+    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
+      <span class="absolute top-4 left-4 bg-green-100 text-green-600 text-xs font-bold px-2 py-1 rounded-full">متاح للعمل</span>
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-16 h-16 rounded-full bg-navy flex items-center justify-center text-2xl text-white font-bold" style="background:var(--steel);">ص</div>
+        <div>
+          <h3 class="font-bold text-lg" style="font-family:'Tajawal',sans-serif; color:var(--navy);">صلاح عبدالله</h3>
+          <p class="text-sm text-gray-500">فني كهرباء منازل • الجيزة</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-4 text-sm">
+        <div style="color:var(--amber);">★★★★★</div>
+        <span class="font-bold text-navy">5.0</span>
+        <span class="text-gray-400">(210 خدمة مكتملة)</span>
+      </div>
+      <p class="text-gray-600 text-sm mb-5 line-clamp-2">
+        حل جميع أعطال الكهرباء المعقدة، تأسيس شقق، تركيب نجف وسبوتات واكتشاف الشورتات الكهربائية.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">تأسيس كهرباء</span>
+        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg border border-gray-100">صيانة أعطال</span>
+      </div>
+      <div class="flex gap-3">
+        <button class="btn-primary flex-1 justify-center text-sm py-2">وظفني الآن</button>
+        <button class="btn-outline flex-1 justify-center text-sm py-2" style="color:var(--navy); border-color:rgba(11,31,58,.2);">عرض الملف</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-12 text-center">
+    <button class="btn-outline" style="color:var(--navy); border-color:rgba(11,31,58,.2);">عرض المزيد من الحرفيين</button>
+  </div>
+</main>
+
+<footer class="py-6 border-t border-gray-200 text-center" style="background:var(--white);">
+  <p class="text-gray-500 text-sm">© 2026 WorkCrew. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script src="workcrew-script.js"></script>
+<!-- Script for sticky navbar in secondary pages -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.add('scrolled');
+  });
+</script>
+</body>
+</html>

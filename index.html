@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkCrew – فريق عملك جاهز متى شئت</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:   { DEFAULT: '#0B1F3A', 800: '#0e2748', 700: '#122d55', 600: '#1a3e72' },
+            amber:  { DEFAULT: '#F5A623', bright: '#FFB830', dark: '#D4891A' },
+            cream:  '#F9F6F0',
+            steel:  '#6B8CAE',
+          },
+          fontFamily: {
+            cairo:   ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="workcrew-style.css" />
+</head>
+<body>
+
+<nav id="navbar" class="py-4 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+    <a href="#" class="logo-text text-white">
+      Work<span class="logo-dot">Crew</span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8">
+      <li><a href="#hero"     class="nav-link">الرئيسية</a></li>
+      <li><a href="workcrew-freelancers.html" class="nav-link">تصفح الحرفيين</a></li>
+      <li><a href="workcrew-jobs.html"        class="nav-link">الطلبات المفتوحة</a></li>
+      <li><a href="#how"      class="nav-link">كيف نعمل</a></li>
+      <li><a href="#contact"  class="nav-link">تواصل معنا</a></li>
+    </ul>
+
+    <div class="hidden md:block">
+      <a href="#" class="btn-navy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+        انضم كمزود خدمة
+      </a>
+    </div>
+
+    <button id="hamburger" class="md:hidden text-white" aria-label="قائمة">
+      <svg id="icon-open"  width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg id="icon-close" class="hidden" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="flex-col items-center gap-5 py-6 mt-3 rounded-2xl mx-4 text-center">
+    <a href="workcrew-freelancers.html" class="nav-link">تصفح الحرفيين</a>
+    <a href="workcrew-jobs.html"        class="nav-link">الطلبات المفتوحة</a>
+    <a href="#how"      class="nav-link" onclick="closeMenu()">كيف نعمل</a>
+    <a href="#contact"  class="nav-link" onclick="closeMenu()">تواصل معنا</a>
+    <a href="#" class="btn-navy mt-2">انضم كمزود خدمة</a>
+  </div>
+</nav>
+
+<section id="hero" class="relative flex items-center justify-center pt-28 pb-16 px-6 md:px-12">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+
+  <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center">
+
+    <div class="z-10">
+      <div class="hero-badge mb-6">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--amber)" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        المنصة الأولى لخدمات الصيانة والبناء في مصر
+      </div>
+
+      <h1 class="hero-title mb-6">
+        فريق عملك<br/>
+        <span class="highlight">جاهز متى شئت</span>
+      </h1>
+
+      <p class="hero-sub mb-10">
+        سواء أكنت بحاجة إلى حرفي مستقل لإصلاح سريع، أم إلى فريق بناء متكامل — منصة WorkCrew تصلك بالكفاءات الموثوقة بأسرع وقت وأفضل الأسعار.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mb-14" style="animation: fadeUp .8s .8s both;">
+        <a href="#" class="btn-primary open-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8Z"/></svg>
+          اطلب خدمة الآن
+        </a>
+        <a href="#" class="btn-outline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          سجل كحرفي أو فريق
+        </a>
+      </div>
+
+      <div class="flex flex-wrap gap-4" style="animation: fadeUp .8s 1s both;">
+        <div class="stat-chip">
+          <p class="text-2xl font-bold text-amber-400" style="color:var(--amber); font-family:'Tajawal',sans-serif;">+2000</p>
+          <p class="text-xs text-gray-400 mt-1">حرفي وفريق موثق</p>
+        </div>
+        <div class="stat-chip">
+          <p class="text-2xl font-bold" style="color:var(--amber); font-family:'Tajawal',sans-serif;">+5000</p>
+          <p class="text-xs text-gray-400 mt-1">خدمة منجزة بنجاح</p>
+        </div>
+        <div class="stat-chip">
+          <p class="text-2xl font-bold" style="color:var(--amber); font-family:'Tajawal',sans-serif;">98%</p>
+          <p class="text-xs text-gray-400 mt-1">نسبة رضا العملاء</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="z-10 hidden md:flex justify-center" style="animation: fadeUp .8s .5s both;">
+      <div class="relative w-full max-w-md">
+        <div class="rounded-3xl overflow-hidden" style="background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(12px); padding:2rem;">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-xl" style="background:var(--amber)">🔧</div>
+            <div>
+              <p class="text-white font-bold text-sm">محمد حسن</p>
+              <p class="text-gray-400 text-xs">فني صيانة معتمد • القاهرة</p>
+            </div>
+            <span class="mr-auto px-2 py-1 rounded-full text-xs font-bold" style="background:rgba(34,197,94,.15); color:#4ade80;">متاح الآن</span>
+          </div>
+
+          <div class="flex gap-1 mb-5">
+            <span style="color:var(--amber); font-size:1rem;">★★★★★</span>
+            <span class="text-white text-sm mr-1 font-semibold">4.9</span>
+            <span class="text-gray-400 text-xs self-end">(134 تقييم)</span>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(245,166,35,.15);color:var(--amber);">أعمال سباكة</span>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(245,166,35,.15);color:var(--amber);">صيانة دورية</span>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(245,166,35,.15);color:var(--amber);">تدخل طارئ</span>
+          </div>
+
+          <button class="btn-primary w-full justify-center">احجز الخدمة الآن</button>
+        </div>
+
+        <div class="absolute -top-4 -left-4 rounded-2xl px-4 py-3 flex items-center gap-2 shadow-2xl" style="background:var(--navy); border:1px solid rgba(245,166,35,.3);">
+          <span class="text-xl">✅</span>
+          <div>
+            <p class="text-white text-xs font-bold">تم تأكيد الطلب</p>
+            <p class="text-gray-400 text-xs">خلال دقيقتين فقط</p>
+          </div>
+        </div>
+
+        <div class="absolute -bottom-4 -right-4 rounded-2xl px-4 py-3 flex items-center gap-2 shadow-2xl" style="background:var(--amber); ">
+          <span class="text-xl">⭐</span>
+          <div>
+            <p style="color:var(--navy)" class="text-xs font-bold">تقييم ممتاز</p>
+            <p style="color:var(--navy-light)" class="text-xs">عمل متقن واحترافي!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scroll-hint">
+    <span>اكتشف المزيد</span>
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<section id="services" class="py-24 px-6 md:px-12 bg-white relative">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label">🔍 تصفح الخدمات</span>
+      <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4" style="font-family:'Tajawal',sans-serif; color:var(--navy);">
+        ابحث عن الخدمة التي تحتاجها
+      </h2>
+      <div class="max-w-2xl mx-auto relative mt-8">
+        <input type="text" id="searchInput" placeholder="ابحث عن سباك، كهربائي، نجار..." class="w-full pl-4 pr-12 py-4 rounded-2xl border-2 border-gray-100 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none shadow-sm transition-all text-lg text-gray-700" />
+        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-2xl">🔍</span>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal reveal-delay-2">
+      <div class="service-card p-8 rounded-2xl text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl" style="background:var(--cream); border:1px solid rgba(11,31,58,.05);">
+        <div class="text-5xl mb-4">🚰</div>
+        <h3 class="font-bold text-xl" style="font-family:'Tajawal',sans-serif; color:var(--navy);">سباكة</h3>
+      </div>
+      <div class="service-card p-8 rounded-2xl text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl" style="background:var(--cream); border:1px solid rgba(11,31,58,.05);">
+        <div class="text-5xl mb-4">⚡</div>
+        <h3 class="font-bold text-xl" style="font-family:'Tajawal',sans-serif; color:var(--navy);">كهرباء</h3>
+      </div>
+      <div class="service-card p-8 rounded-2xl text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl" style="background:var(--cream); border:1px solid rgba(11,31,58,.05);">
+        <div class="text-5xl mb-4">🪵</div>
+        <h3 class="font-bold text-xl" style="font-family:'Tajawal',sans-serif; color:var(--navy);">نجارة</h3>
+      </div>
+      <div class="service-card p-8 rounded-2xl text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl" style="background:var(--cream); border:1px solid rgba(11,31,58,.05);">
+        <div class="text-5xl mb-4">🎨</div>
+        <h3 class="font-bold text-xl" style="font-family:'Tajawal',sans-serif; color:var(--navy);">نقاشة وديكور</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="py-24 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="section-label">💡 لماذا تختار WorkCrew؟</span>
+      <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4" style="font-family:'Tajawal',sans-serif;">
+        الحل الشامل لمشاريعك
+      </h2>
+      <p class="text-gray-500 max-w-xl mx-auto text-lg">
+        صُممت منصتنا لتوفر لك أعلى مستويات الراحة والأمان والسرعة في إنجاز أعمالك.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">🛠️</div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Tajawal',sans-serif;">خيارات مرنة تلبي احتياجاتك</h3>
+        <p class="text-gray-500 leading-relaxed">
+          سواء كنت بحاجة إلى حرفي مستقل لإصلاح عطل طارئ، أو فريق متكامل لإنجاز مشروع بناء؛ لدينا الحل المناسب لكل متطلب وميزانية.
+        </p>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(11,31,58,.08);color:var(--navy);">حرفي مستقل</span>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(11,31,58,.08);color:var(--navy);">فريق متكامل</span>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(11,31,58,.08);color:var(--navy);">خدمة طوارئ 24/7</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2" style="border-color: rgba(245,166,35,.3); background: linear-gradient(135deg, #fff 70%, rgba(245,166,35,.05) 100%);">
+        <div class="absolute top-4 left-4 px-2 py-1 rounded-full text-xs font-bold" style="background:var(--amber);color:var(--navy);">الميزة الأهم</div>
+        <div class="feature-icon">⚡</div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Tajawal',sans-serif;">السرعة وضمان الجودة</h3>
+        <p class="text-gray-500 leading-relaxed">
+          نضمن لك الاستجابة لطلبك خلال ساعة، مع التزام تام بجودة العمل وسياسة استرداد واضحة لضمان حقوقك بالكامل.
+        </p>
+        <div class="mt-5 p-3 rounded-xl flex items-center gap-3" style="background:rgba(245,166,35,.1);">
+          <span class="text-2xl">🕐</span>
+          <div>
+            <p class="font-bold text-sm" style="color:var(--navy);">متوسط زمن الاستجابة</p>
+            <p class="font-black text-xl" style="color:var(--amber); font-family:'Tajawal',sans-serif;">أقل من 45 دقيقة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">⭐</div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Tajawal',sans-serif;">نظام تقييم شفاف</h3>
+        <p class="text-gray-500 leading-relaxed">
+          يتمتع كل مزود خدمة بملف تعريفي شامل يعرض سجل أعماله السابقة، وتقييمات العملاء الحقيقية، والشهادات المعتمدة، لتتخذ قرارك بثقة.
+        </p>
+        <div class="flex items-center gap-2 mt-5">
+          <div class="flex gap-1" style="color:var(--amber); font-size:1.1rem;">★★★★★</div>
+          <span class="font-bold text-sm" style="color:var(--navy);">4.8 متوسط التقييمات</span>
+        </div>
+        <div class="w-full rounded-full h-2 mt-2" style="background:rgba(11,31,58,.08);">
+          <div class="h-2 rounded-full" style="width:96%; background:linear-gradient(90deg,var(--amber),var(--amber-light));"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="how" class="py-24 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="section-label" style="background:rgba(245,166,35,.15);border-color:rgba(245,166,35,.3);color:var(--amber);">⚙️ آلية العمل</span>
+      <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4 text-white" style="font-family:'Tajawal',sans-serif;">
+        ثلاث خطوات بسيطة
+      </h2>
+      <p class="max-w-xl mx-auto text-lg" style="color:rgba(255,255,255,.6);">
+        تجربة الاستخدام مصممة لتكون سلسة ومباشرة — اطلب، حدد الموعد، ثم استلم عملك المنجز.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 relative">
+
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-number">١</div>
+        <div class="text-5xl mb-4">📋</div>
+        <h3 class="text-xl font-bold mb-3 text-white" style="font-family:'Tajawal',sans-serif;">تقديم الطلب</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7;">
+          اختر نوع الخدمة المطلوبة، أدرج تفاصيل العمل، وحدد موقعك الجغرافي. عملية التسجيل لا تستغرق سوى دقائق معدودة.
+        </p>
+      </div>
+
+      <div class="hidden md:block absolute top-1/2 right-1/3 -translate-y-1/2 w-16 h-px" style="background:linear-gradient(90deg, rgba(245,166,35,.5), transparent);"></div>
+      <div class="hidden md:block absolute top-1/2 left-1/3 -translate-y-1/2 w-16 h-px" style="background:linear-gradient(90deg, transparent, rgba(245,166,35,.5));"></div>
+
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-number">٢</div>
+        <div class="text-5xl mb-4">📅</div>
+        <h3 class="text-xl font-bold mb-3 text-white" style="font-family:'Tajawal',sans-serif;">تحديد الموعد والمختص</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7;">
+          نستعرض لك أفضل الكفاءات المتاحة في محيطك مع تقييماتهم. اختر الأنسب لك وحدد التوقيت الذي يلائمك.
+        </p>
+      </div>
+
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-number">٣</div>
+        <div class="text-5xl mb-4">🏆</div>
+        <h3 class="text-xl font-bold mb-3 text-white" style="font-family:'Tajawal',sans-serif;">إنجاز العمل</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7;">
+          يحضر مزود الخدمة في الموعد المحدد لإنجاز العمل بأعلى معايير الجودة، لتتمكن بعدها من تقييم التجربة.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-14 reveal">
+      <div class="flex items-center gap-2 px-5 py-3 rounded-full" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);">
+        <span>🔒</span><span class="text-white text-sm font-semibold">بوابات دفع آمنة</span>
+      </div>
+      <div class="flex items-center gap-2 px-5 py-3 rounded-full" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);">
+        <span>📍</span><span class="text-white text-sm font-semibold">تتبع مسار الخدمة</span>
+      </div>
+      <div class="flex items-center gap-2 px-5 py-3 rounded-full" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);">
+        <span>💬</span><span class="text-white text-sm font-semibold">دعم فني على مدار الساعة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust" class="py-24 px-6 md:px-12 relative overflow-hidden" style="background: linear-gradient(180deg, #091829 0%, var(--navy) 100%);">
+  <!-- Faint Shield Background Element -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none opacity-5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="0.5" class="w-full h-full">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  </div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label" style="background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.3);color:#4ade80;">🛡️ الأمان والموثوقية</span>
+      <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4 text-white" style="font-family:'Tajawal',sans-serif;">
+        أمانك وأمان أسرتك أولويتنا
+      </h2>
+      <p class="max-w-2xl mx-auto text-lg" style="color:rgba(255,255,255,.6);">
+        نحن ندرك أن إدخال شخص غريب إلى منزلك يتطلب ثقة كبيرة، لذلك بنينا نظام أمان صارم لضمان راحة بالك التامة.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Pillar 1 -->
+      <div class="p-8 rounded-3xl reveal reveal-delay-1 transition-transform hover:-translate-y-1" style="background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6" style="background:linear-gradient(135deg, rgba(245,166,35,.2) 0%, rgba(245,166,35,.05) 100%); color:var(--amber); border:1px solid rgba(245,166,35,.2);">📜</div>
+        <h3 class="text-xl font-bold text-white mb-3" style="font-family:'Tajawal',sans-serif;">تحقق جنائي صارم</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7; font-size:.95rem;">
+          نلزم جميع مزودي الخدمات بتقديم صحيفة حالة جنائية حديثة (فيش وتشبيه) خالية من أي سوابق، لضمان أعلى مستويات النزاهة وحسن السير والسلوك.
+        </p>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="p-8 rounded-3xl reveal reveal-delay-2 transition-transform hover:-translate-y-1" style="background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6" style="background:linear-gradient(135deg, rgba(245,166,35,.2) 0%, rgba(245,166,35,.05) 100%); color:var(--amber); border:1px solid rgba(245,166,35,.2);">🤖</div>
+        <h3 class="text-xl font-bold text-white mb-3" style="font-family:'Tajawal',sans-serif;">مطابقة الهوية بالذكاء الاصطناعي</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7; font-size:.95rem;">
+          نستخدم تقنيات التعرف على الوجه والتحقق الحي (Liveness Detection) لمطابقة هوية الحرفي وصورته مع الوثائق الرسمية لمنع أي انتحال للشخصية.
+        </p>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="p-8 rounded-3xl reveal reveal-delay-3 transition-transform hover:-translate-y-1" style="background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6" style="background:linear-gradient(135deg, rgba(245,166,35,.2) 0%, rgba(245,166,35,.05) 100%); color:var(--amber); border:1px solid rgba(245,166,35,.2);">🔐</div>
+        <h3 class="text-xl font-bold text-white mb-3" style="font-family:'Tajawal',sans-serif;">أرشفة وتشفير الوثائق</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7; font-size:.95rem;">
+          نحفظ بطاقات الهوية والمستندات الرسمية بخوارزميات تشفير متقدمة، لضمان المساءلة القانونية والقدرة على التدخل السريع في حالات الطوارئ.
+        </p>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="p-8 rounded-3xl reveal reveal-delay-4 transition-transform hover:-translate-y-1" style="background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6" style="background:linear-gradient(135deg, rgba(245,166,35,.2) 0%, rgba(245,166,35,.05) 100%); color:var(--amber); border:1px solid rgba(245,166,35,.2);">📍</div>
+        <h3 class="text-xl font-bold text-white mb-3" style="font-family:'Tajawal',sans-serif;">تتبع حي وتقييم مستمر</h3>
+        <p style="color:rgba(255,255,255,.6); line-height:1.7; font-size:.95rem;">
+          يتيح لك التطبيق تتبع مسار الحرفي مباشرة حتى وصوله، مع مراقبة صارمة للتقييمات لاستبعاد أي مقدم خدمة لا يلتزم بمعايير الجودة والأمان.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="py-20 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="cta-box reveal">
+      <div class="relative z-10 text-center">
+        <span class="text-5xl mb-4 block">🚀</span>
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-4" style="font-family:'Tajawal',sans-serif;">
+          ابدأ رحلتك معنا اليوم — بكل سهولة
+        </h2>
+        <p class="text-gray-400 mb-8 max-w-lg mx-auto">
+          سواء كنت عميلاً يبحث عن خدمة موثوقة، أو مزود خدمة يطمح لتوسيع نطاق أعماله — انضم إلى شبكتنا الآن.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+        <a href="#" class="btn-primary open-modal">اطلب خدمتك الآن</a>
+          <a href="#" class="btn-outline">انضم كحرفي أو فريق</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="py-14 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <a href="#" class="logo-text text-white">Work<span class="logo-dot">Crew</span></a>
+        <p class="text-gray-400 mt-3 max-w-xs text-sm leading-relaxed">
+          المنصة الرقمية الرائدة في مصر للربط بين طالبي الخدمات والحرفيين وفرق العمل الموثوقة بكفاءة وسرعة.
+        </p>
+        <div class="flex gap-3 mt-5">
+          <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);" onmouseover="this.style.background='var(--amber)';this.style.color='var(--navy)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.6)'">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);" onmouseover="this.style.background='var(--amber)';this.style.color='var(--navy)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.6)'">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);" onmouseover="this.style.background='var(--amber)';this.style.color='var(--navy)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.6)'">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.106.552 4.082 1.512 5.798L.057 23.882a.75.75 0 0 0 .919.93l6.184-1.437A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 text-sm">روابط سريعة</h4>
+        <ul class="space-y-3">
+          <li><a href="#hero"     class="footer-link">الرئيسية</a></li>
+          <li><a href="#features" class="footer-link">المميزات</a></li>
+          <li><a href="#how"      class="footer-link">آلية العمل</a></li>
+          <li><a href="#"         class="footer-link">نبذة عنا</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 text-sm">معلومات التواصل</h4>
+        <ul class="space-y-3">
+          <li><a href="mailto:hello@workcrew.eg" class="footer-link">hello@workcrew.eg</a></li>
+          <li><a href="tel:+201234567890" class="footer-link" dir="ltr">+20 123 456 7890</a></li>
+          <li><span class="footer-link">القاهرة، مصر</span></li>
+          <li><a href="#" class="footer-link">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t pt-8 flex flex-wrap items-center justify-between gap-4" style="border-color:rgba(255,255,255,.07);">
+      <p class="text-gray-500 text-sm">
+        © 2026 WorkCrew. جميع الحقوق محفوظة.
+      </p>
+      <p class="text-gray-600 text-xs">
+        صُنع بـ ❤️ في مصر
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ── Booking Modal ── -->
+<div id="bookingModal" class="fixed inset-0 z-[2000] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" style="background: rgba(11,31,58,0.8); backdrop-filter: blur(8px);">
+  <div class="modal-content bg-white rounded-3xl p-8 w-full max-w-lg mx-4 scale-95 opacity-0 transition-all duration-300 relative">
+    <button id="closeModal" class="absolute top-5 left-5 text-gray-400 hover:text-red-500 transition-colors">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="text-2xl font-black mb-2" style="font-family:'Tajawal',sans-serif; color:var(--navy);">اطلب خدمتك الآن</h3>
+    <p class="text-gray-500 text-sm mb-6">يرجى تعبئة التفاصيل أدناه وسنقوم بتوصيلك بأفضل المختصين فوراً.</p>
+    <form id="bookingForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-bold mb-1" style="color:var(--navy);">نوع الخدمة</label>
+        <select class="w-full p-3 rounded-xl border border-gray-200 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700">
+          <option>اختر الخدمة...</option>
+          <option>سباكة</option>
+          <option>كهرباء</option>
+          <option>نجارة</option>
+          <option>نظافة شاملة</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1" style="color:var(--navy);">وصف المشكلة / الطلب</label>
+        <textarea rows="3" class="w-full p-3 rounded-xl border border-gray-200 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700" placeholder="اكتب تفاصيل طلبك هنا..."></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1" style="color:var(--navy);">العنوان</label>
+        <input type="text" class="w-full p-3 rounded-xl border border-gray-200 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700" placeholder="مثال: مدينة نصر, شارع مكرم عبيد..." />
+      </div>
+      <button type="button" class="btn-primary w-full justify-center mt-2" onclick="alert('تم إرسال طلبك بنجاح! سيتم التواصل معك قريباً.')">إرسال الطلب</button>
+    </form>
+  </div>
+</div>
+
+<script src="workcrew-script.js"></script>
+</body>
+</html>
