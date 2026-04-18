@@ -1,276 +1,1497 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>وورك كرو | بوابتك للخبراء الميدانيين في مصر</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WorkCrew | وورك كرو — فريق عملك الميداني الاحترافي</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <!-- Fonts: Syne (display EN) + Cairo (AR/body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
 
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            navy:   '#001f3f',
-            amber:  '#FFBF00',
-          },
-          fontFamily: {
-            cairo:   ['Cairo', 'sans-serif'],
-            tajawal: ['Tajawal', 'sans-serif'],
-          },
-        },
-      },
+            navy:  '#001f3f',
+            amber: '#FFBF00',
+          }
+        }
+      }
     };
   </script>
+
   <style>
+    /* ══════════ TOKENS ══════════ */
+    :root {
+      --navy:       #001f3f;
+      --navy-mid:   #00294f;
+      --navy-light: #003566;
+      --amber:      #FFBF00;
+      --amber-glow: rgba(255,191,0,.35);
+      --amber-dim:  rgba(255,191,0,.12);
+      --white:      #ffffff;
+      --glass-bg:   rgba(255,255,255,.05);
+      --glass-border: rgba(255,255,255,.1);
+      --text-muted: rgba(255,255,255,.5);
+    }
+
+    /* ══════════ BASE ══════════ */
+    *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Cairo', sans-serif; background-color: #fdfdfd; }
-    .hero-bg { background-color: #001f3f; }
-    .nav-link { position: relative; color: rgba(255,255,255,.8); font-weight: 600; transition: color .2s; }
-    .nav-link:hover { color: #FFBF00; }
-    .nav-link::after { content: ''; position: absolute; bottom: -4px; right: 0; width: 0; height: 2px; background: #FFBF00; transition: width .3s; }
-    .nav-link:hover::after { width: 100%; }
-    .btn-primary { background-color: #FFBF00; color: #001f3f; transition: transform .2s, box-shadow .2s; }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(255, 191, 0, .4); }
-    .btn-outline { border-color: rgba(255,255,255,.35); color: white; transition: border-color .2s, background .2s, transform .2s; }
-    .btn-outline:hover { border-color: #FFBF00; background: rgba(255, 191, 0, .1); transform: translateY(-3px); }
-    .card { transition: transform .3s, box-shadow .3s; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0, 31, 63, .1); }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--navy);
+      color: #fff;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a { text-decoration: none; }
+
+    /* ══════════ CUSTOM CURSOR ══════════ */
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--amber);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transition: transform .15s ease;
+      transform: translate(-50%,-50%);
+    }
+    #cursor-ring {
+      width: 40px; height: 40px;
+      border: 1.5px solid rgba(255,191,0,.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99998;
+      transition: transform .4s ease, width .3s, height .3s, border-color .3s;
+      transform: translate(-50%,-50%);
+    }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring { width: 60px; height: 60px; border-color: var(--amber); }
+
+    /* ══════════ DUAL LANGUAGE ══════════ */
+    html[lang="en"] .ar { display: none !important; }
+    html[lang="ar"] .en { display: none !important; }
+    html[lang="en"] { direction: ltr; }
+    html[lang="ar"] { direction: rtl; }
+    html[lang="en"] body { font-family: 'Syne', sans-serif; }
+
+    /* ══════════ NOISE GRAIN ══════════ */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: .5;
+    }
+
+    /* ══════════ SCROLLBAR ══════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+    /* ══════════ ORBS / BG GLOW ══════════ */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); pointer-events: none;
+      animation: drift 10s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-20px) scale(1.05); }
+      66%      { transform: translate(-20px,15px) scale(.97); }
+    }
+
+    /* ══════════ NAVBAR ══════════ */
+    #navbar {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 1.25rem 3rem;
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    #navbar.stuck {
+      background: rgba(0,20,40,.85);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom-color: var(--glass-border);
+    }
+    .logo-word { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+    .logo-word span { color: var(--amber); }
+
+    .nav-pill {
+      color: rgba(255,255,255,.65);
+      font-size: .875rem; font-weight: 600;
+      padding: .4rem .9rem; border-radius: 100px;
+      transition: color .2s, background .2s;
+    }
+    .nav-pill:hover { color: #fff; background: rgba(255,255,255,.07); }
+
+    /* ══════════ BUTTON SYSTEM ══════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-weight: 700; border-radius: 14px; padding: .85rem 2rem;
+      font-size: 1rem; cursor: pointer; border: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-amber {
+      background: var(--amber);
+      color: var(--navy);
+      box-shadow: 0 0 0 0 var(--amber-glow);
+    }
+    .btn-amber:hover { box-shadow: 0 8px 32px var(--amber-glow); }
+    .btn-ghost {
+      background: var(--glass-bg);
+      color: #fff;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { border-color: rgba(255,191,0,.4); background: var(--amber-dim); }
+
+    /* Lang toggle */
+    .lang-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: rgba(255,255,255,.7);
+      font-weight: 700; font-size: .8rem;
+      padding: .45rem .9rem; border-radius: 8px;
+      cursor: pointer; transition: all .2s;
+      font-family: 'Syne', sans-serif;
+    }
+    .lang-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    /* ══════════ HERO ══════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 8rem 2rem 5rem;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--amber-dim);
+      border: 1px solid rgba(255,191,0,.25);
+      color: var(--amber); font-size: .8rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .4rem 1rem; border-radius: 100px;
+      animation: fadeUp .8s .1s both;
+    }
+    .hero-h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 6.5vw, 6rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      margin: 1.5rem 0 .8rem;
+      animation: fadeUp .9s .25s both;
+    }
+    .hero-h1 .amber-stroke {
+      -webkit-text-stroke: 2px var(--amber);
+      color: transparent;
+    }
+    .hero-h1-ar {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      font-weight: 900; line-height: 1.2;
+      margin: 1.5rem 0 .8rem;
+      animation: fadeUp .9s .25s both;
+    }
+    .hero-sub {
+      max-width: 680px; margin: 0 auto;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: rgba(255,255,255,.6); line-height: 1.8;
+      animation: fadeUp .9s .45s both;
+    }
+    .hero-cta-row { animation: fadeUp .9s .65s both; }
+
+    /* Grid metric chips */
+    .metric-bar { animation: fadeUp .9s .85s both; }
+    .metric-chip {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 1.2rem 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .25s, transform .25s;
+    }
+    .metric-chip:hover { border-color: rgba(255,191,0,.4); transform: translateY(-4px); }
+    .metric-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem; font-weight: 800; color: var(--amber);
+      line-height: 1;
+    }
+
+    /* Floating card */
+    .hero-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      padding: 1.8rem;
+      animation: fadeUp .9s .5s both;
+    }
+    .badge-float {
+      position: absolute;
+      background: var(--navy-mid);
+      border: 1px solid rgba(255,191,0,.35);
+      border-radius: 14px; padding: .6rem 1rem;
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .78rem; font-weight: 700;
+      box-shadow: 0 8px 30px rgba(0,0,0,.4);
+      animation: floatY 4s ease-in-out infinite;
+    }
+    @keyframes floatY {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .badge-float.delay { animation-delay: -2s; }
+
+    /* ══════════ SECTION COMMONS ══════════ */
+    section { position: relative; overflow: hidden; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--amber);
+      background: var(--amber-dim); border: 1px solid rgba(255,191,0,.2);
+      padding: .3rem .8rem; border-radius: 100px; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800; line-height: 1.1; letter-spacing: -.03em;
+    }
+    .section-title-ar {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 900; line-height: 1.2;
+    }
+
+    /* ══════════ GLASS CARD ══════════ */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      backdrop-filter: blur(12px);
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .glass-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,191,0,.3);
+      box-shadow: 0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(255,191,0,.1);
+    }
+
+    /* ══════════ VISION ══════════ */
+    #vision { padding: 8rem 0; background: var(--navy); }
+    .vision-quote {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      line-height: 1.6; color: rgba(255,255,255,.75);
+      font-weight: 500;
+    }
+    .vision-quote strong { color: #fff; font-weight: 700; }
+    .vision-quote .accent { color: var(--amber); }
+
+    /* ══════════ SECURITY ENGINE ══════════ */
+    #security { padding: 8rem 0; background: var(--navy-mid); }
+    .pillar-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--navy-light) 0%, #004080 100%);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; color: var(--amber);
+      box-shadow: 0 8px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1);
+      transition: transform .3s; margin-bottom: 1.5rem;
+    }
+    .glass-card:hover .pillar-icon { transform: scale(1.08) rotate(-5deg); }
+    .verified-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.3);
+      color: #34d399; font-size: .7rem; font-weight: 700;
+      padding: .25rem .6rem; border-radius: 100px;
+      margin-top: 1rem;
+    }
+
+    /* ══════════ CATEGORIES ══════════ */
+    #categories { padding: 8rem 0; background: var(--navy); }
+    .cat-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform .3s, border-color .3s, background .3s;
+      position: relative; overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 100px; height: 100px;
+      background: radial-gradient(circle at top right, rgba(255,191,0,.1), transparent 70%);
+      transition: opacity .3s;
+    }
+    .cat-card:hover { transform: translateY(-6px); border-color: rgba(255,191,0,.35); }
+    .cat-card:hover::before { opacity: 2; }
+    .cat-icon {
+      font-size: 2.2rem; margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--amber), #ffda6a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .cat-pill {
+      display: inline-block;
+      background: rgba(255,191,0,.1); border: 1px solid rgba(255,191,0,.2);
+      color: rgba(255,191,0,.8); font-size: .65rem; font-weight: 600;
+      padding: .2rem .6rem; border-radius: 6px; margin: .15rem;
+    }
+
+    /* ══════════ PROCESS ══════════ */
+    #process { padding: 8rem 0; background: var(--navy-mid); }
+    .step-line {
+      position: absolute; top: 40px;
+      left: calc(50% + 80px); right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,191,0,.4), transparent);
+    }
+    html[dir="rtl"] .step-line {
+      left: 0; right: calc(50% + 80px);
+      background: linear-gradient(270deg, rgba(255,191,0,.4), transparent);
+    }
+    .step-num {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--amber), #ffda6a);
+      color: var(--navy);
+      font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+      border-radius: 20px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 32px rgba(255,191,0,.35);
+    }
+
+    /* ══════════ SURVEY ══════════ */
+    #survey { padding: 8rem 0; background: var(--navy); }
+    .survey-wrap {
+      background: linear-gradient(135deg, rgba(255,255,255,.05) 0%, rgba(255,191,0,.03) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 3.5rem;
+      backdrop-filter: blur(16px);
+    }
+    .survey-toggle {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px; padding: .4rem;
+      display: flex; gap: .4rem;
+    }
+    .toggle-btn {
+      flex: 1; padding: .75rem 1.5rem;
+      border-radius: 10px; font-weight: 700; font-size: .9rem;
+      cursor: pointer; transition: all .25s; border: none;
+      color: rgba(255,255,255,.5); background: transparent;
+    }
+    .toggle-btn.active {
+      background: var(--amber); color: var(--navy);
+      box-shadow: 0 4px 16px rgba(255,191,0,.4);
+    }
+    .form-label {
+      display: block; font-size: .85rem; font-weight: 700;
+      color: rgba(255,255,255,.7); margin-bottom: .6rem;
+    }
+    .form-input {
+      width: 100%; padding: .9rem 1.1rem;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; color: #fff;
+      font-family: 'Cairo', sans-serif; font-size: .95rem;
+      transition: border-color .2s, background .2s; outline: none;
+    }
+    html[lang="en"] .form-input { font-family: 'Syne', sans-serif; }
+    .form-input:focus { border-color: var(--amber); background: rgba(255,191,0,.05); }
+    .form-input option { background: var(--navy-mid); color: #fff; }
+    .radio-card {
+      flex: 1; cursor: pointer;
+    }
+    .radio-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio-face {
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px; padding: .75rem;
+      text-align: center; font-weight: 700; font-size: .85rem;
+      transition: all .2s; background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.6);
+    }
+    .radio-card input:checked + .radio-face {
+      border-color: var(--amber);
+      background: rgba(255,191,0,.12);
+      color: var(--amber);
+    }
+    .divider { height: 1px; background: rgba(255,255,255,.08); margin: 2rem 0; }
+
+    /* ══════════ FAQ ══════════ */
+    #faq { padding: 8rem 0; background: var(--navy-mid); }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+    .faq-q {
+      width: 100%; text-align: right; background: none; border: none;
+      color: #fff; font-family: 'Cairo', sans-serif;
+      font-size: 1rem; font-weight: 700; padding: 1.5rem 0;
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; transition: color .2s;
+    }
+    html[lang="en"] .faq-q { font-family: 'Syne', sans-serif; text-align: left; }
+    .faq-q:hover { color: var(--amber); }
+    .faq-chevron { transition: transform .3s; color: var(--amber); font-size: .85rem; flex-shrink: 0; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
+      color: rgba(255,255,255,.6); line-height: 1.8; font-size: .95rem;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.2rem; }
+
+    /* ══════════ FOOTER ══════════ */
+    footer { background: #000d1a; border-top: 1px solid rgba(255,255,255,.06); }
+    .footer-link { color: rgba(255,255,255,.4); font-size: .85rem; transition: color .2s; }
+    .footer-link:hover { color: var(--amber); }
+
+    /* ══════════ ANIMATIONS ══════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+    .reveal-d4 { transition-delay: .4s; }
+    .reveal-d5 { transition-delay: .5s; }
+    .reveal-d6 { transition-delay: .6s; }
+
+    /* ══════════ MOBILE MENU ══════════ */
+    #mob-menu {
+      display: none; flex-direction: column; align-items: center; gap: 1rem;
+      padding: 2rem; background: rgba(0,15,30,.97);
+      backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border);
+    }
+    #mob-menu.open { display: flex; }
+
+    /* ══════════ SUCCESS ANIMATION ══════════ */
+    @keyframes successPop {
+      0% { transform: scale(.8); opacity: 0; }
+      60%{ transform: scale(1.1); }
+      100%{ transform: scale(1); opacity: 1; }
+    }
+    .success-pop { animation: successPop .5s ease both; }
   </style>
 </head>
-<body class="bg-gray-50">
+<body>
 
-<nav class="hero-bg py-4 px-6 md:px-12 sticky top-0 z-50 shadow-lg">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <a href="#hero" class="text-2xl font-extrabold text-white font-tajawal">
-      Work<span class="text-amber">Crew</span>
-    </a>
-    <ul class="hidden md:flex items-center gap-8">
-      <li><a href="#hero" class="nav-link">الرئيسية</a></li>
-      <li><a href="#categories" class="nav-link">الفئات</a></li>
-      <li><a href="#security" class="nav-link">الأمان</a></li>
-      <li><a href="#join" class="nav-link">انضم إلينا</a></li>
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══════════════════════════════ NAVBAR ══════════════════════════════ -->
+<nav id="navbar">
+  <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+
+    <a href="#hero" class="logo-word">Work<span>Crew</span></a>
+
+    <ul class="hidden lg:flex items-center gap-1">
+      <li><a href="#vision"     class="nav-pill"><span class="ar">الرؤية</span><span class="en">Vision</span></a></li>
+      <li><a href="#security"   class="nav-pill"><span class="ar">الأمان</span><span class="en">Security</span></a></li>
+      <li><a href="#categories" class="nav-pill"><span class="ar">الخدمات</span><span class="en">Services</span></a></li>
+      <li><a href="#process"    class="nav-pill"><span class="ar">آلية العمل</span><span class="en">Process</span></a></li>
+      <li><a href="#faq"        class="nav-pill"><span class="ar">الأسئلة</span><span class="en">FAQ</span></a></li>
     </ul>
-    <div class="hidden md:block">
-      <a href="#join" class="btn-primary font-bold py-2 px-5 rounded-lg text-sm">
-        ابدأ الآن
+
+    <div class="flex items-center gap-3">
+      <button id="langToggle" class="lang-btn">EN</button>
+      <a href="#survey" class="btn btn-amber hidden md:inline-flex" style="font-size:.85rem;padding:.6rem 1.4rem;border-radius:10px;">
+        <i class="fa-solid fa-bolt" style="font-size:.8rem;"></i>
+        <span class="ar">ابدأ الآن</span><span class="en">Get Started</span>
       </a>
+      <button id="mob-toggle" class="lg:hidden text-white p-2">
+        <i id="mob-icon" class="fa-solid fa-bars text-xl"></i>
+      </button>
     </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mob-menu">
+    <a href="#vision"     class="nav-pill text-lg" onclick="closeMob()"><span class="ar">الرؤية</span><span class="en">Vision</span></a>
+    <a href="#security"   class="nav-pill text-lg" onclick="closeMob()"><span class="ar">الأمان</span><span class="en">Security</span></a>
+    <a href="#categories" class="nav-pill text-lg" onclick="closeMob()"><span class="ar">الخدمات</span><span class="en">Services</span></a>
+    <a href="#process"    class="nav-pill text-lg" onclick="closeMob()"><span class="ar">آلية العمل</span><span class="en">Process</span></a>
+    <a href="#survey"     class="btn btn-amber w-full justify-center mt-2" onclick="closeMob()">
+      <span class="ar">ابدأ الآن</span><span class="en">Get Started</span>
+    </a>
   </div>
 </nav>
 
-<main>
-  <section id="hero" class="hero-bg text-white">
-    <div class="max-w-6xl mx-auto px-6 md:px-12 pt-24 pb-32 text-center">
-      <h1 class="text-4xl md:text-6xl font-black font-tajawal mb-5">
-        وورك كرو | بوابتك للخبراء الميدانيين في مصر
-      </h1>
-      <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-10">
-        نصلك بنخبة المحترفين الموثقين أمنياً وفنياً لإنجاز مهامك على أرض الواقع (هندسة، قانون، صيانة، رعاية صحية).
-      </p>
-      <div class="flex justify-center gap-4">
-        <a href="#join" class="btn-primary font-bold py-3 px-8 rounded-xl text-lg">
-          انضم كمحترف
-        </a>
-        <a href="#categories" class="btn-outline font-bold py-3 px-8 rounded-xl text-lg">
-          اكتشف الفئات
-        </a>
-      </div>
-    </div>
-  </section>
 
-  <section id="categories" class="py-24 px-6 md:px-12">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black font-tajawal text-navy">
-          تصفح أبرز الفئات
-        </h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-lg mt-3">
-          نخبة من الخبراء في مختلف المجالات لتلبية كافة احتياجاتك الميدانية.
-        </p>
-      </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Card 1 -->
-        <div class="card bg-white p-8 rounded-2xl border border-gray-200 text-center">
-          <div class="text-5xl mb-4">🏗️</div>
-          <h3 class="font-bold text-xl font-tajawal text-navy">الهندسة والتقنية</h3>
-          <p class="text-gray-600 mt-2">معاينات، إشراف، ديكور.</p>
-        </div>
-        <!-- Card 2 -->
-        <div class="card bg-white p-8 rounded-2xl border border-gray-200 text-center">
-          <div class="text-5xl mb-4">⚖️</div>
-          <h3 class="font-bold text-xl font-tajawal text-navy">القانون والإدارة</h3>
-          <p class="text-gray-600 mt-2">خدمات المحاماة والمحاسبة الميدانية.</p>
-        </div>
-        <!-- Card 3 -->
-        <div class="card bg-white p-8 rounded-2xl border border-gray-200 text-center">
-          <div class="text-5xl mb-4">🔧</div>
-          <h3 class="font-bold text-xl font-tajawal text-navy">الصيانة والإنشاءات</h3>
-          <p class="text-gray-600 mt-2">سباكة، كهرباء، تشطيبات شاملة.</p>
-        </div>
-        <!-- Card 4 -->
-        <div class="card bg-white p-8 rounded-2xl border border-gray-200 text-center">
-          <div class="text-5xl mb-4">❤️‍🩹</div>
-          <h3 class="font-bold text-xl font-tajawal text-navy">الرعاية والخدمات</h3>
-          <p class="text-gray-600 mt-2">تمريض منزلي وتدريب رياضي.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<section id="hero">
+  <!-- Background orbs -->
+  <div class="orb" style="width:600px;height:600px;background:rgba(255,191,0,.06);top:-150px;right:-150px;animation-duration:12s;"></div>
+  <div class="orb" style="width:400px;height:400px;background:rgba(0,53,102,.6);bottom:-100px;left:-100px;animation-duration:9s;animation-delay:-4s;"></div>
+  <div class="orb" style="width:200px;height:200px;background:rgba(255,191,0,.04);top:40%;left:20%;animation-duration:7s;animation-delay:-2s;"></div>
 
-  <section id="security" class="py-24 px-6 md:px-12 bg-navy text-white">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black font-tajawal">
-          <span class="text-amber">المثلث الذهبي</span> للأمان
-        </h2>
-        <p class="text-gray-300 max-w-xl mx-auto text-lg mt-3">
-          نظام أمان ثلاثي الأبعاد يضمن لك الثقة والموثوقية في كل خطوة.
-        </p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-10 text-center">
-        <!-- Pillar 1 -->
-        <div class="p-6">
-          <div class="text-5xl mb-4">📜</div>
-          <h3 class="font-bold text-xl font-tajawal text-amber">توثيق نقابي ومهني</h3>
-          <p class="text-gray-300 mt-2">نتحقق من شهادات الخبرة والتراخيص المهنية لضمان الكفاءة الفنية.</p>
-        </div>
-        <!-- Pillar 2 -->
-        <div class="p-6">
-          <div class="text-5xl mb-4">🛡️</div>
-          <h3 class="font-bold text-xl font-tajawal text-amber">فيش وتشبيه موجه</h3>
-          <p class="text-gray-300 mt-2">نطلب صحيفة حالة جنائية حديثة وموجهة باسم الشركة لضمان الأمانة.</p>
-        </div>
-        <!-- Pillar 3 -->
-        <div class="p-6">
-          <div class="text-5xl mb-4">👤</div>
-          <h3 class="font-bold text-xl font-tajawal text-amber">بصمة وجه ذكية</h3>
-          <p class="text-gray-300 mt-2">نطابق هوية المحترف عند كل خدمة باستخدام تقنية التعرف على الوجه.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Diagonal grid -->
+  <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 60px);pointer-events:none;"></div>
 
-  <section id="join" class="py-24 px-6 md:px-12">
-    <div class="max-w-2xl mx-auto">
-      <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl md:text-4xl font-black font-tajawal text-navy">
-            كن جزءاً من المستقبل
-          </h2>
-          <p class="text-gray-500 text-lg mt-3">
-            سجل اهتمامك الآن للانضمام إلى شبكة WorkCrew سواء كنت عميلاً أو محترفاً.
-          </p>
+  <div class="section-inner w-full">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left / Text -->
+      <div>
+        <div class="hero-eyebrow">
+          <i class="fa-solid fa-circle-check" style="font-size:.7rem;"></i>
+          <span class="ar">منصة الخدمات الميدانية الأكثر أماناً</span>
+          <span class="en">Egypt's Most Trusted Field Platform</span>
         </div>
-        <form id="joinForm" class="space-y-5">
-          <div>
-            <label for="fullName" class="block text-sm font-bold mb-1 text-navy">الاسم بالكامل</label>
-            <input type="text" id="fullName" name="fullName" required class="w-full p-3 rounded-xl border border-gray-300 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700">
+
+        <h1 class="ar" style="font-family:'Cairo',sans-serif;font-size:clamp(2.6rem,5.5vw,5rem);font-weight:900;line-height:1.15;margin:1.5rem 0 .8rem;animation:fadeUp .9s .25s both;">
+          <span style="display:block;color:rgba(255,255,255,.45);font-size:.55em;font-weight:600;letter-spacing:.04em;margin-bottom:.2em;">وورك كرو</span>
+          <span style="display:block;color:#fff;">فريقك الميداني</span>
+          <span style="display:block;background:linear-gradient(90deg,var(--amber) 0%,#ffe066 60%,var(--amber) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">الاحترافي</span>
+        </h1>
+        <h1 class="en" style="font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5.5vw,5.2rem);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin:1.5rem 0 .8rem;animation:fadeUp .9s .25s both;">
+          <span style="display:block;color:rgba(255,255,255,.4);font-size:.45em;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3em;">WorkCrew</span>
+          <span style="display:block;color:#fff;">Your Expert</span>
+          <span style="display:block;background:linear-gradient(90deg,var(--amber),#ffe066 60%,var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">On-Ground Team</span>
+        </h1>
+
+        <p class="hero-sub ar">نوصلك بنخبة المحترفين الموثّقين أمنياً وفنياً — فحص جنائي، توثيق مهني، ومطابقة بيومترية — لإنجاز مهامك على أرض الواقع.</p>
+        <p class="hero-sub en">Connect with security-cleared, professionally verified experts — criminal background checks, license verification & biometric ID matching — to execute any on-ground task.</p>
+
+        <div class="hero-cta-row flex flex-wrap gap-4 mt-8">
+          <a href="#survey" class="btn btn-amber">
+            <i class="fa-solid fa-rocket"></i>
+            <span class="ar">انضم كمحترف</span><span class="en">Join as Pro</span>
+          </a>
+          <a href="#categories" class="btn btn-ghost">
+            <span class="ar">استكشف الخدمات</span><span class="en">Explore Services</span>
+            <i class="fa-solid fa-arrow-left ar" style="font-size:.8rem;"></i>
+            <i class="fa-solid fa-arrow-right en" style="font-size:.8rem;"></i>
+          </a>
+        </div>
+
+        <!-- Trust indicators (no fake numbers) -->
+        <div class="metric-bar flex flex-wrap gap-3 mt-10">
+          <div style="display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:.55rem 1rem;font-size:.8rem;color:rgba(255,255,255,.6);font-weight:600;">
+            <i class="fa-solid fa-shield-halved" style="color:var(--amber);font-size:.75rem;"></i>
+            <span class="ar">فحص أمني إلزامي</span><span class="en">Mandatory Security Check</span>
           </div>
-          <div>
-            <label for="whatsapp" class="block text-sm font-bold mb-1 text-navy">رقم الواتساب</label>
-            <input type="tel" id="whatsapp" name="whatsapp" required class="w-full p-3 rounded-xl border border-gray-300 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700">
+          <div style="display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:.55rem 1rem;font-size:.8rem;color:rgba(255,255,255,.6);font-weight:600;">
+            <i class="fa-solid fa-fingerprint" style="color:var(--amber);font-size:.75rem;"></i>
+            <span class="ar">توثيق بيومتري</span><span class="en">Biometric Verified</span>
           </div>
-          <div>
-            <label for="specialty" class="block text-sm font-bold mb-1 text-navy">التخصص المطلوب / مجال الخبرة</label>
-            <input type="text" id="specialty" name="specialty" required class="w-full p-3 rounded-xl border border-gray-300 focus:border-amber focus:ring-1 focus:ring-amber focus:outline-none bg-gray-50 text-gray-700">
+          <div style="display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:.55rem 1rem;font-size:.8rem;color:rgba(255,255,255,.6);font-weight:600;">
+            <i class="fa-solid fa-id-card-clip" style="color:var(--amber);font-size:.75rem;"></i>
+            <span class="ar">توثيق مهني نقابي</span><span class="en">Syndicate Licensed</span>
           </div>
-          <div>
-            <label class="block text-sm font-bold mb-2 text-navy">هل أنت؟</label>
-            <div class="flex gap-6">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="userType" value="عميل" class="text-amber focus:ring-amber" checked>
-                <span class="font-semibold text-gray-700">عميل أبحث عن خدمة</span>
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="userType" value="محترف" class="text-amber focus:ring-amber">
-                <span class="font-semibold text-gray-700">محترف أقدم خدمة</span>
-              </label>
+        </div>
+      </div>
+
+      <!-- Right / Card -->
+      <div class="hidden lg:flex justify-center relative" style="min-height:420px;">
+        <div class="hero-card w-full max-w-sm absolute top-0" style="right:0;">
+          <!-- Profile Header -->
+          <div class="flex items-center gap-3 mb-4">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#003566,#004080);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">👷</div>
+            <div>
+              <div style="font-weight:700;font-size:.95rem;">Ahmed Saber</div>
+              <div style="font-size:.75rem;color:rgba(255,255,255,.45);" class="ar">مهندس مدني • القاهرة</div>
+              <div style="font-size:.75rem;color:rgba(255,255,255,.45);" class="en">Civil Engineer • Cairo</div>
+            </div>
+            <div style="margin-right:auto;padding:.3rem .7rem;border-radius:100px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#34d399;font-size:.7rem;font-weight:700;" class="ar">متاح الآن</div>
+            <div style="margin-left:auto;padding:.3rem .7rem;border-radius:100px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#34d399;font-size:.7rem;font-weight:700;" class="en">Available</div>
+          </div>
+          <!-- Stars -->
+          <div class="flex items-center gap-2 mb-4">
+            <div style="color:var(--amber);letter-spacing:.05em;">★★★★★</div>
+            <strong style="font-size:.9rem;">4.97</strong>
+            <span style="color:rgba(255,255,255,.35);font-size:.75rem;">(248 <span class="ar">تقييم</span><span class="en">reviews</span>)</span>
+          </div>
+          <!-- Security badges -->
+          <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:.8rem 1rem;margin-bottom:1.2rem;">
+            <div style="font-size:.72rem;font-weight:700;color:#34d399;margin-bottom:.5rem;">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span class="ar"> الملف الأمني موثّق بالكامل</span>
+              <span class="en"> Fully Verified Profile</span>
+            </div>
+            <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+              <span style="font-size:.65rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#34d399;padding:.2rem .5rem;border-radius:6px;"><i class="fa-solid fa-check"></i> <span class="ar">فحص جنائي</span><span class="en">Background</span></span>
+              <span style="font-size:.65rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#34d399;padding:.2rem .5rem;border-radius:6px;"><i class="fa-solid fa-check"></i> <span class="ar">نقابة مهندسين</span><span class="en">Licensed</span></span>
+              <span style="font-size:.65rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#34d399;padding:.2rem .5rem;border-radius:6px;"><i class="fa-solid fa-check"></i> Face ID</span>
             </div>
           </div>
-          <button type="submit" id="submitButton" class="btn-primary w-full justify-center font-bold text-lg py-3 px-8 rounded-xl mt-4">
-            إرسال
+          <button class="btn btn-amber w-full justify-center" style="padding:.7rem;font-size:.9rem;">
+            <span class="ar">احجز الآن</span><span class="en">Book Now</span>
           </button>
-          <p id="formMessage" class="text-center mt-4 text-green-600 font-semibold"></p>
+        </div>
+
+        <!-- Float badges -->
+        <div class="badge-float" style="top:10px;left:-20px;">
+          <span style="font-size:1.1rem;">✅</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:800;" class="ar">تم التحقق من الهوية</div>
+            <div style="font-size:.72rem;font-weight:800;" class="en">Identity Verified</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.4);" class="ar">بصمة الوجه مطابقة</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.4);" class="en">Face ID matched</div>
+          </div>
+        </div>
+        <div class="badge-float delay" style="bottom:20px;left:-30px;background:var(--amber);border-color:transparent;">
+          <span style="font-size:1.1rem;">⭐</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:800;color:var(--navy);" class="ar">تقييم جديد</div>
+            <div style="font-size:.72rem;font-weight:800;color:var(--navy);" class="en">New Review</div>
+            <div style="font-size:.65rem;color:rgba(0,31,63,.6);" class="ar">شغل ممتاز!</div>
+            <div style="font-size:.65rem;color:rgba(0,31,63,.6);" class="en">Excellent work!</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(255,255,255,.3);font-size:.72rem;animation:fadeUp 1s 1.2s both;">
+    <span class="ar">اكتشف أكثر</span><span class="en">Scroll to explore</span>
+    <i class="fa-solid fa-chevron-down" style="animation:drift 2s ease-in-out infinite;"></i>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ OVERVIEW / VISION ══════════════════════════════ -->
+<section id="vision" style="background:var(--navy-mid);position:relative;overflow:hidden;">
+
+  <!-- Subtle amber top-edge glow -->
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:700px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,191,0,.35),transparent);pointer-events:none;"></div>
+  <!-- Dot pattern -->
+  <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;"></div>
+
+  <div class="section-inner py-32 relative">
+
+    <!-- ── Header ── -->
+    <div class="text-center mb-20 reveal">
+      <div class="section-tag"><i class="fa-solid fa-compass"></i> <span class="ar">نظرة عامة</span><span class="en">Overview</span></div>
+      <h2 class="section-title mt-5 en" style="max-width:700px;margin-left:auto;margin-right:auto;">
+        What is <span style="color:var(--amber);">WorkCrew</span>?
+      </h2>
+      <h2 class="section-title-ar mt-5 ar" style="max-width:700px;margin-left:auto;margin-right:auto;">
+        ما هو <span style="color:var(--amber);">وورك كرو</span>؟
+      </h2>
+    </div>
+
+    <!-- ── Big problem / solution split ── -->
+    <div class="grid lg:grid-cols-2 gap-12 items-start mb-20">
+
+      <!-- Problem side -->
+      <div class="glass-card p-8 reveal reveal-d1">
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;">
+          <div style="width:44px;height:44px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#f87171;font-size:1.1rem;flex-shrink:0;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <h3 style="font-family:'Cairo',sans-serif;font-size:1.2rem;font-weight:800;color:#f87171;" class="ar">المشكلة</h3>
+          <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#f87171;" class="en">The Problem</h3>
+        </div>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.85;" class="ar">
+          سوق الخدمات الميدانية في مصر — من سباكين ومهندسين لمحامين وممرضين — يعاني من
+          <strong style="color:#fff;">غياب كامل للثقة.</strong> لا يوجد نظام للتحقق من هوية المحترفين، لا ضمانات على جودة الشغل، ولا آلية واضحة للتسعير. النتيجة؟ عميل مش عارف يثق، ومحترف موهوب مش لاقي طريقه.
+        </p>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.85;" class="en">
+          Egypt's field services market — from plumbers and engineers to lawyers and nurses — suffers from a
+          <strong style="color:#fff;">complete trust deficit.</strong> No system to verify professionals' identities, no quality guarantees, no transparent pricing. The result? Clients who can't trust, and talented pros who can't grow.
+        </p>
+        <!-- Pain points list -->
+        <ul style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.7rem;">
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.5);">
+            <span style="width:6px;height:6px;background:#f87171;border-radius:50%;flex-shrink:0;"></span>
+            <span class="ar">لا يوجد فحص لخلفية المحترف أو سجله الجنائي</span>
+            <span class="en">No background or criminal record check for professionals</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.5);">
+            <span style="width:6px;height:6px;background:#f87171;border-radius:50%;flex-shrink:0;"></span>
+            <span class="ar">أسعار عشوائية وغير شفافة</span>
+            <span class="en">Arbitrary, non-transparent pricing</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.5);">
+            <span style="width:6px;height:6px;background:#f87171;border-radius:50%;flex-shrink:0;"></span>
+            <span class="ar">لا ضمان على جودة التنفيذ أو الاسترداد</span>
+            <span class="en">No execution quality guarantee or refund mechanism</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.5);">
+            <span style="width:6px;height:6px;background:#f87171;border-radius:50%;flex-shrink:0;"></span>
+            <span class="ar">لا يعرف العميل إذا كان الشخص القادم هو المسجل فعلاً</span>
+            <span class="en">No way to confirm the arriving person is who they registered as</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Solution side -->
+      <div class="glass-card p-8 reveal reveal-d2" style="border-color:rgba(255,191,0,.2);">
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;">
+          <div style="width:44px;height:44px;background:rgba(255,191,0,.12);border:1px solid rgba(255,191,0,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:1.1rem;flex-shrink:0;">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h3 style="font-family:'Cairo',sans-serif;font-size:1.2rem;font-weight:800;color:var(--amber);" class="ar">الحل</h3>
+          <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--amber);" class="en">The Solution</h3>
+        </div>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.85;" class="ar">
+          <strong style="color:#fff;">وورك كرو</strong> هو منصة رقمية مصرية تربط العملاء — أفراد وشركات صغيرة — بمحترفين ميدانيين موثّقين عبر
+          <strong style="color:#fff;">ثلاث طبقات أمان متكاملة.</strong> نفحص كل محترف جنائياً، نوثّق ترخيصه المهني، ونتحقق من هويته بيومترياً قبل كل مهمة.
+        </p>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.85;" class="en">
+          <strong style="color:#fff;">WorkCrew</strong> is an Egyptian digital platform connecting clients — individuals and small businesses — with verified field professionals through
+          <strong style="color:#fff;">three integrated security layers.</strong> We screen every professional criminally, verify their professional license, and confirm their identity biometrically before every assignment.
+        </p>
+        <ul style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.7rem;">
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.6);">
+            <i class="fa-solid fa-check" style="color:var(--amber);font-size:.75rem;flex-shrink:0;"></i>
+            <span class="ar">فحص جنائي رسمي لكل محترف قبل الانضمام</span>
+            <span class="en">Official criminal screening before joining</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.6);">
+            <i class="fa-solid fa-check" style="color:var(--amber);font-size:.75rem;flex-shrink:0;"></i>
+            <span class="ar">توثيق نقابي ومهني معتمد</span>
+            <span class="en">Certified syndicate & professional license verification</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.6);">
+            <i class="fa-solid fa-check" style="color:var(--amber);font-size:.75rem;flex-shrink:0;"></i>
+            <span class="ar">مطابقة وجه بيومترية قبل كل زيارة</span>
+            <span class="en">Biometric face match before every visit</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(255,255,255,.6);">
+            <i class="fa-solid fa-check" style="color:var(--amber);font-size:.75rem;flex-shrink:0;"></i>
+            <span class="ar">دفع آمن وضمان استرداد في حالة الشكاوى</span>
+            <span class="en">Secure payment with refund guarantee on disputes</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Vision Statement full-width ── -->
+    <div class="reveal">
+      <div style="background:linear-gradient(135deg,rgba(255,191,0,.07) 0%,rgba(255,191,0,.02) 100%);border:1px solid rgba(255,191,0,.2);border-radius:24px;padding:3rem 3.5rem;position:relative;overflow:hidden;">
+        <!-- big quote mark decoration -->
+        <div style="position:absolute;top:-20px;right:2rem;font-size:10rem;color:rgba(255,191,0,.06);font-family:'Syne',sans-serif;font-weight:800;line-height:1;pointer-events:none;user-select:none;">"</div>
+        <div style="position:absolute;bottom:-30px;left:2rem;font-size:10rem;color:rgba(255,191,0,.06);font-family:'Syne',sans-serif;font-weight:800;line-height:1;pointer-events:none;user-select:none;">"</div>
+        <div style="max-width:760px;margin:0 auto;text-align:center;position:relative;">
+          <p style="font-family:'Cairo',sans-serif;font-size:clamp(1.1rem,2.2vw,1.5rem);font-weight:700;line-height:1.75;color:rgba(255,255,255,.85);" class="ar">
+            رؤيتنا هي <span style="color:var(--amber);">إنهاء حقبة العشوائية</span> في سوق الخدمات الميدانية بمصر — من خلال بناء منظومة ثقة رقمية شاملة تجعل كل تعامل بين عميل ومحترف <span style="color:#fff;font-weight:900;">آمناً، شفافاً، وذا قيمة حقيقية.</span>
+          </p>
+          <p style="font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:600;line-height:1.7;color:rgba(255,255,255,.8);" class="en">
+            Our vision is to <span style="color:var(--amber);">end the era of randomness</span> in Egypt's field services market — by building a comprehensive digital trust ecosystem that makes every interaction between client and professional <span style="color:#fff;font-weight:800;">safe, transparent, and genuinely valuable.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3 value pillars ── -->
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+
+      <div class="glass-card p-6 text-center reveal reveal-d1" style="border-top:2px solid rgba(255,191,0,.3);">
+        <div style="width:52px;height:52px;background:rgba(255,191,0,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;">🛡️</div>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:.5rem;" class="ar">الأمان أولاً</h3>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.5rem;" class="en">Safety First</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="ar">لا محترف ينضم إلا بعد اجتياز الفحص الأمني الثلاثي الكامل</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="en">No professional joins without passing the complete 3-layer security check</p>
+      </div>
+
+      <div class="glass-card p-6 text-center reveal reveal-d2" style="border-top:2px solid rgba(255,191,0,.3);">
+        <div style="width:52px;height:52px;background:rgba(255,191,0,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;">⚡</div>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:.5rem;" class="ar">سرعة وجودة مضمونة</h3>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.5rem;" class="en">Speed & Guaranteed Quality</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="ar">الاستجابة السريعة مع ضمان جودة التنفيذ وحق الاسترداد</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="en">Fast response paired with execution quality guarantee and refund rights</p>
+      </div>
+
+      <div class="glass-card p-6 text-center reveal reveal-d3" style="border-top:2px solid rgba(255,191,0,.3);">
+        <div style="width:52px;height:52px;background:rgba(255,191,0,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;">⚖️</div>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:.5rem;" class="ar">تسعير عادل وشفاف</h3>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.5rem;" class="en">Fair & Transparent Pricing</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="ar">أسعار واضحة من البداية — لا مفاجآت، لا مساومات عشوائية</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65;" class="en">Clear pricing from the start — no surprises, no random haggling</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ SECURITY ENGINE ══════════════════════════════ -->
+<section id="security">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,191,0,.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;"></div>
+  <div class="section-inner py-32 relative">
+
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag"><i class="fa-solid fa-lock"></i> <span class="ar">محرك الثقة</span><span class="en">The Safety Engine</span></div>
+      <h2 class="section-title mt-4 en">The Trust Stack</h2>
+      <h2 class="section-title-ar mt-4 ar">منظومة الأمان المطوّرة</h2>
+      <p style="color:rgba(255,255,255,.5);max-width:520px;margin:.8rem auto 0;font-size:.95rem;" class="ar">ثلاثة طبقات أمان لا تحتوي على استثناءات — لأن سلامتك ليست خياراً</p>
+      <p style="color:rgba(255,255,255,.5);max-width:520px;margin:.8rem auto 0;font-size:.95rem;" class="en">Three non-negotiable security layers — because your safety is not optional</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Pillar 1 -->
+      <div class="glass-card p-8 reveal reveal-d1">
+        <div class="pillar-icon"><i class="fa-solid fa-file-shield"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="en">Criminal Background Check</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="ar">فحص السجل الجنائي</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="ar">صحيفة الحالة الجنائية الرسمية، حديثة وموجّهة للشركة مباشرةً. شرط إلزامي لكل محترف ينضم إلى المنصة.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="en">Official criminal record clearance, recent and directed to the company. A mandatory requirement for every professional joining the platform.</p>
+        <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> <span class="ar">معتمد رسمياً</span><span class="en">Officially Certified</span></div>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="glass-card p-8 reveal reveal-d2" style="border-color:rgba(255,191,0,.2);">
+        <div class="pillar-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6);"><i class="fa-solid fa-id-card-clip"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="en">Professional License Verification</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="ar">توثيق مزاولة المهنة</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="ar">التحقق من كارنيه النقابة ومزاولة المهنة للمهندسين والمحامين والممرضين والمحاسبين.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="en">Verifying syndicate membership cards and practice licenses for engineers, lawyers, nurses, and accountants.</p>
+        <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> <span class="ar">نقابة موثّقة</span><span class="en">Syndicate Verified</span></div>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="glass-card p-8 reveal reveal-d3">
+        <div class="pillar-icon" style="background:linear-gradient(135deg,#0369a1,#075985);"><i class="fa-solid fa-fingerprint"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="en">Biometric Face ID Match</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-size:1.15rem;font-weight:700;color:var(--amber);margin-bottom:.7rem;" class="ar">مطابقة الهوية ببصمة الوجه</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="ar">مطابقة بيومترية لبصمة الوجه عند كل مهمة لضمان وصول الشخص المسجل في الملف فقط.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.75;" class="en">Real-time biometric face matching at each assignment — guaranteeing only the registered profile holder arrives at your location.</p>
+        <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> <span class="ar">تقنية AI</span><span class="en">AI-Powered</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ CATEGORIES ══════════════════════════════ -->
+<section id="categories">
+  <div class="section-inner py-32">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag"><i class="fa-solid fa-grid-2"></i> <span class="ar">الفئات</span><span class="en">Categories</span></div>
+      <h2 class="section-title mt-4 en">Every Skill. One Platform.</h2>
+      <h2 class="section-title-ar mt-4 ar">كل المهارات. منصة واحدة.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="cat-card reveal reveal-d1">
+        <div class="cat-icon"><i class="fa-solid fa-hard-hat"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Engineering</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">الهندسة</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">مدني، معماري، ديكور داخلي، لاندسكيب</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">Civil, Architectural, Interior Design, Landscape</p>
+        <div><span class="cat-pill ar">مدني</span><span class="cat-pill ar">معماري</span><span class="cat-pill ar">ديكور</span></div>
+        <div><span class="cat-pill en">Civil</span><span class="cat-pill en">Architecture</span><span class="cat-pill en">Interior</span></div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="cat-card reveal reveal-d2">
+        <div class="cat-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Legal & Finance</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">القانون والمالية</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">محاماة ميدانية، محاسبة، جرد مخازن</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">Field Law, Accounting, Inventory Audit</p>
+        <div><span class="cat-pill ar">محاماة</span><span class="cat-pill ar">محاسبة</span><span class="cat-pill ar">جرد</span></div>
+        <div><span class="cat-pill en">Legal</span><span class="cat-pill en">Accounting</span><span class="cat-pill en">Audit</span></div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="cat-card reveal reveal-d3">
+        <div class="cat-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Maintenance</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">الصيانة</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">سباكة، كهرباء، تكييف، نجارة، ألوميتال</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">Plumbing, Electrical, HVAC, Carpentry, Aluminum</p>
+        <div><span class="cat-pill ar">سباكة</span><span class="cat-pill ar">كهرباء</span><span class="cat-pill ar">تكييف</span></div>
+        <div><span class="cat-pill en">Plumbing</span><span class="cat-pill en">Electrical</span><span class="cat-pill en">HVAC</span></div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="cat-card reveal reveal-d4">
+        <div class="cat-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Healthcare</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">الرعاية الصحية</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">تمريض منزلي، علاج طبيعي، مدرب خاص</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">Home Nursing, Physiotherapy, Personal Trainer</p>
+        <div><span class="cat-pill ar">تمريض</span><span class="cat-pill ar">علاج طبيعي</span></div>
+        <div><span class="cat-pill en">Nursing</span><span class="cat-pill en">Physio</span></div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="cat-card reveal reveal-d5">
+        <div class="cat-icon"><i class="fa-solid fa-microchip"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Smart Tech</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">التكنولوجيا الذكية</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">كاميرات مراقبة، سمارت هوم، شبكات</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">CCTV, Smart Home Systems, Network Setup</p>
+        <div><span class="cat-pill ar">كاميرات</span><span class="cat-pill ar">سمارت هوم</span></div>
+        <div><span class="cat-pill en">CCTV</span><span class="cat-pill en">Smart Home</span></div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="cat-card reveal reveal-d6">
+        <div class="cat-icon"><i class="fa-solid fa-camera-retro"></i></div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="en">Events</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;" class="ar">المناسبات</h3>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="ar">تصوير فوتوغرافي، تنظيم حفلات، شيف منزلي</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem;" class="en">Photography, Event Planning, Private Chef</p>
+        <div><span class="cat-pill ar">تصوير</span><span class="cat-pill ar">حفلات</span><span class="cat-pill ar">طهي</span></div>
+        <div><span class="cat-pill en">Photography</span><span class="cat-pill en">Events</span><span class="cat-pill en">Chef</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ PROCESS ══════════════════════════════ -->
+<section id="process">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,191,0,.03) 0%,transparent 100%);pointer-events:none;"></div>
+  <div class="section-inner py-32 relative">
+
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag"><i class="fa-solid fa-route"></i> <span class="ar">رحلة العميل</span><span class="en">How It Works</span></div>
+      <h2 class="section-title mt-4 en">3 Steps. Done.</h2>
+      <h2 class="section-title-ar mt-4 ar">٣ خطوات وبس.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-10 relative">
+      <!-- Connector line -->
+      <div style="display:none;" class="md:block" id="step-connector"></div>
+      <style>
+        @media(min-width:768px){
+          .steps-grid::before {
+            content:'';
+            position:absolute; top:36px;
+            left:25%; right:25%;
+            height:1px;
+            background:linear-gradient(90deg,transparent,rgba(255,191,0,.3),transparent);
+          }
+        }
+      </style>
+
+      <!-- Step 1 -->
+      <div class="glass-card p-8 text-center reveal reveal-d1 relative" style="position:relative;">
+        <div class="step-num">1</div>
+        <div style="font-size:2.5rem;margin-bottom:1rem;">📋</div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="en">Request</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="ar">اطلب الخدمة</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="ar">حدد الخدمة المطلوبة وموقعك الجغرافي بدقة خلال أقل من دقيقتين.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="en">Specify the service you need and your exact location in under two minutes.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="glass-card p-8 text-center reveal reveal-d2" style="border-color:rgba(255,191,0,.25);">
+        <div class="step-num">2</div>
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🔍</div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="en">Verify & Select</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="ar">تحقق واختر</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="ar">راجع الملفات الأمنية الكاملة، التقييمات الحقيقية، وحدد الميعاد المناسب.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="en">Review full verified profiles, authentic reviews, and set your preferred time.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="glass-card p-8 text-center reveal reveal-d3">
+        <div class="step-num">3</div>
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🏆</div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="en">Execute</h3>
+        <h3 style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.8rem;" class="ar">استلم الشغل</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="ar">التنفيذ بضمان وورك كرو، دفع آمن، وتسعير شفاف 100%.</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.75;" class="en">WorkCrew-guaranteed execution, secure payment, and 100% transparent pricing.</p>
+      </div>
+
+    </div>
+
+    <!-- Guarantee chips -->
+    <div class="flex flex-wrap justify-center gap-3 mt-14 reveal">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;">
+        🔒 <span class="ar">دفع آمن ومحمي</span><span class="en">Secure Payment</span>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;">
+        📍 <span class="ar">تتبع الحرفي مباشرة</span><span class="en">Live Pro Tracking</span>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;">
+        💬 <span class="ar">دعم 24/7</span><span class="en">24/7 Support</span>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;">
+        🤝 <span class="ar">ضمان الاسترداد</span><span class="en">Refund Guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ SURVEY ══════════════════════════════ -->
+<section id="survey">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(255,191,0,.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div class="section-inner py-32 relative">
+
+    <div class="text-center mb-12 reveal">
+      <div class="section-tag"><i class="fa-solid fa-chart-bar"></i> <span class="ar">التحقق من السوق</span><span class="en">Market Validation</span></div>
+      <h2 class="section-title mt-4 en">Shape the Future of WorkCrew</h2>
+      <h2 class="section-title-ar mt-4 ar">شارك في بناء وورك كرو</h2>
+      <p style="color:rgba(255,255,255,.45);max-width:480px;margin:.8rem auto 0;font-size:.95rem;" class="ar">رأيك يصنع الفارق — انضم كمحترف أو شاركنا كعميل</p>
+      <p style="color:rgba(255,255,255,.45);max-width:480px;margin:.8rem auto 0;font-size:.95rem;" class="en">Your input shapes the product — join as a pro or share your needs as a client</p>
+    </div>
+
+    <div class="max-w-xl mx-auto reveal">
+      <div class="survey-wrap">
+
+        <!-- Role toggle -->
+        <div class="survey-toggle mb-8">
+          <button type="button" id="btnClient" class="toggle-btn active" onclick="toggleRole('Client')">
+            👤 <span class="ar">أنا عميل</span><span class="en">I'm a Client</span>
+          </button>
+          <button type="button" id="btnPro" class="toggle-btn" onclick="toggleRole('Pro')">
+            🔧 <span class="ar">أنا محترف</span><span class="en">I'm a Pro</span>
+          </button>
+        </div>
+
+        <form id="surveyForm" novalidate>
+
+          <!-- Name -->
+          <div class="mb-5">
+            <label class="form-label"><span class="ar">الاسم الكامل *</span><span class="en">Full Name *</span></label>
+            <input type="text" id="fullName" class="form-input" placeholder="مثال: محمد أحمد / e.g. Mohamed Ahmed"/>
+          </div>
+
+          <!-- CLIENT FIELDS -->
+          <div id="clientFields">
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">نوع الخدمة التي تحتاجها *</span><span class="en">Service Category Needed *</span></label>
+              <select id="clientService" class="form-input">
+                <option value="" disabled selected><span class="ar">اختر الخدمة</span> / Select Service</option>
+                <option value="Engineering">الهندسة (Engineering)</option>
+                <option value="Legal & Finance">القانون والمالية (Legal & Finance)</option>
+                <option value="Maintenance">الصيانة (Maintenance)</option>
+                <option value="Healthcare">الرعاية الصحية (Healthcare)</option>
+                <option value="Smart Tech">التكنولوجيا الذكية (Smart Tech)</option>
+                <option value="Events">المناسبات (Events)</option>
+              </select>
+            </div>
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">العامل الأهم في اختيار المحترف *</span><span class="en">Most Important Factor When Choosing a Pro *</span></label>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                <label class="radio-card"><input type="checkbox" name="clientFactor" value="Safety"/><div class="radio-face">🛡️ <span class="ar">الأمان</span><span class="en">Safety</span></div></label>
+                <label class="radio-card"><input type="checkbox" name="clientFactor" value="Speed"/><div class="radio-face">⚡ <span class="ar">السرعة</span><span class="en">Speed</span></div></label>
+                <label class="radio-card"><input type="checkbox" name="clientFactor" value="Price"/><div class="radio-face">💰 <span class="ar">السعر</span><span class="en">Price</span></div></label>
+                <label class="radio-card"><input type="checkbox" name="clientFactor" value="Quality"/><div class="radio-face">🏆 <span class="ar">الجودة</span><span class="en">Quality</span></div></label>
+              </div>
+            </div>
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">هل واجهت مشاكل أمنية/جودة في خدمات ميدانية سابقاً؟ *</span><span class="en">Have you faced past security/quality issues with field services? *</span></label>
+              <div style="display:flex;gap:.5rem;">
+                <label class="radio-card"><input type="radio" name="clientIssues" value="Yes"/><div class="radio-face"><span class="ar">نعم</span><span class="en">Yes</span></div></label>
+                <label class="radio-card"><input type="radio" name="clientIssues" value="No"/><div class="radio-face"><span class="ar">لا</span><span class="en">No</span></div></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRO FIELDS -->
+          <div id="proFields" class="hidden">
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">مجال التخصص *</span><span class="en">Field of Expertise *</span></label>
+              <select id="proSpecialty" class="form-input">
+                <option value="" disabled selected>اختر التخصص... / Select Expertise...</option>
+                <option value="Engineering">الهندسة (Engineering)</option>
+                <option value="Legal & Finance">القانون والمالية (Legal & Finance)</option>
+                <option value="Maintenance">الصيانة (Maintenance)</option>
+                <option value="Healthcare">الرعاية الصحية (Healthcare)</option>
+                <option value="Smart Tech">التكنولوجيا الذكية (Smart Tech)</option>
+                <option value="Events">المناسبات (Events)</option>
+              </select>
+            </div>
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">سنوات الخبرة *</span><span class="en">Years of Experience *</span></label>
+              <input type="number" id="proExperience" min="0" max="50" class="form-input" placeholder="0"/>
+            </div>
+            <div class="mb-5">
+              <label class="form-label"><span class="ar">هل توافق على فحص السجل الجنائي وتوثيق الهوية؟ *</span><span class="en">Do you consent to a Background Check and Identity Verification? *</span></label>
+              <div style="display:flex;gap:.5rem;">
+                <label class="radio-card"><input type="radio" name="proConsent" value="Yes"/><div class="radio-face"><span class="ar">نعم، أوافق</span><span class="en">Yes, I consent</span></div></label>
+                <label class="radio-card"><input type="radio" name="proConsent" value="No"/><div class="radio-face" style="color:rgba(239,68,68,.7);border-color:rgba(239,68,68,.2);"><span class="ar">لا</span><span class="en">No</span></div></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Market Validation -->
+          <div class="mb-5">
+            <label class="form-label" style="font-size:1rem;color:rgba(255,255,255,.85);margin-bottom:1rem;">
+              <span class="ar">هل ستستخدم المنصة فور انطلاقها في السوق الحقيقي؟ *</span>
+              <span class="en">Will you use the platform upon launch? *</span>
+            </label>
+            <div style="display:flex;gap:.5rem;">
+              <label class="radio-card"><input type="radio" name="marketValidation" value="Yes"/><div class="radio-face">✅ <span class="ar">نعم</span><span class="en">Yes</span></div></label>
+              <label class="radio-card"><input type="radio" name="marketValidation" value="Maybe"/><div class="radio-face">🤔 <span class="ar">ربما</span><span class="en">Maybe</span></div></label>
+              <label class="radio-card"><input type="radio" name="marketValidation" value="No"/><div class="radio-face">❌ <span class="ar">لا</span><span class="en">No</span></div></label>
+            </div>
+          </div>
+
+          <!-- Why not -->
+          <div id="whyNotContainer" class="hidden mb-5">
+            <label class="form-label" style="color:#f87171;"><span class="ar">يرجى إخبارنا بالسبب لنتمكن من التحسين *</span><span class="en">Please tell us why so we can improve *</span></label>
+            <textarea id="whyNotReason" rows="3" class="form-input" style="resize:none;border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05);"></textarea>
+          </div>
+
+          <!-- Suggestions -->
+          <div class="mb-6">
+            <label class="form-label"><span class="ar">اقتراحات إضافية؟ (اختياري)</span><span class="en">Any suggestions? (Optional)</span></label>
+            <textarea id="userSuggestions" rows="3" class="form-input" style="resize:none;"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" id="submitBtn" class="btn btn-amber w-full justify-center" style="padding:1rem;font-size:1rem;">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span class="ar">إرسال الاستطلاع</span><span class="en">Submit Survey</span>
+          </button>
+          <div id="formMessage" class="mt-4 text-center font-semibold text-sm"></div>
+
         </form>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
 
-<footer class="py-8 px-6 md:px-12 bg-navy">
-  <div class="max-w-6xl mx-auto text-center text-gray-400">
-    <p>© 2026 WorkCrew. جميع الحقوق محفوظة.</p>
-    <p class="text-xs mt-1">صُنع بـ ❤️ في مصر</p>
+
+<!-- ══════════════════════════════ FAQ ══════════════════════════════ -->
+<section id="faq">
+  <div class="section-inner py-24">
+
+    <div class="text-center mb-12 reveal">
+      <div class="section-tag"><i class="fa-solid fa-circle-question"></i> FAQ</div>
+      <h2 class="section-title mt-4 en">Common Questions</h2>
+      <h2 class="section-title-ar mt-4 ar">الأسئلة الشائعة</h2>
+    </div>
+
+    <div class="max-w-2xl mx-auto reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="ar">كيف يتم التحقق من هوية المحترف؟</span>
+          <span class="en">How is the professional's identity verified?</span>
+          <i class="fa-solid fa-chevron-down faq-chevron"></i>
+        </button>
+        <div class="faq-a">
+          <span class="ar">نستخدم ثلاث طبقات: فحص السجل الجنائي الرسمي، التحقق من كارنيه النقابة المهنية، ومطابقة الوجه البيومترية لكل مهمة للتأكد من وصول الشخص الصحيح.</span>
+          <span class="en">We use three layers: official criminal record clearance, professional syndicate card verification, and biometric face matching for every assignment to ensure the right person arrives.</span>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="ar">هل خدماتكم متاحة في كل محافظات مصر؟</span>
+          <span class="en">Are your services available across all of Egypt?</span>
+          <i class="fa-solid fa-chevron-down faq-chevron"></i>
+        </button>
+        <div class="faq-a">
+          <span class="ar">نبدأ بمحافظات القاهرة الكبرى والإسكندرية، مع خطة توسع تغطي كامل الجمهورية خلال العام الأول من الإطلاق.</span>
+          <span class="en">We launch in Greater Cairo and Alexandria, with an expansion plan to cover all of Egypt within the first year of operations.</span>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="ar">ما هي ضمانات الدفع للعملاء؟</span>
+          <span class="en">What payment guarantees do clients have?</span>
+          <i class="fa-solid fa-chevron-down faq-chevron"></i>
+        </button>
+        <div class="faq-a">
+          <span class="ar">الدفع لا يتم تحريره للمحترف إلا بعد إقرار العميل بإتمام الشغل. في حالة الشكاوى، يتوقف الدفع تلقائياً ريثما يتم حل النزاع.</span>
+          <span class="en">Payment is only released to the professional after the client confirms task completion. In case of disputes, payment is automatically held until resolution.</span>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="ar">كيف يمكنني الانضمام كمحترف؟</span>
+          <span class="en">How can I join as a professional?</span>
+          <i class="fa-solid fa-chevron-down faq-chevron"></i>
+        </button>
+        <div class="faq-a">
+          <span class="ar">سجّل عبر الاستطلاع أعلاه، وسيتواصل معك فريقنا لإتمام عملية التوثيق الأمني والمهني عند انطلاق المشروع  خطوة بخطوة.</span>
+          <span class="en">Register via the survey above and our team will contact you to complete the security and professional verification process step by step when the project is online .</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer class="py-14 px-6">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="grid md:grid-cols-4 gap-10 pb-12 border-b" style="border-color:rgba(255,255,255,.07);">
+
+      <div class="md:col-span-2">
+        <div class="logo-word mb-3">Work<span>Crew</span></div>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.4);max-width:280px;line-height:1.7;" class="ar">منصة رقمية مصرية تربط العملاء بأفضل المحترفين الموثّقين بأعلى معايير الأمان في أسرع وقت.</p>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.4);max-width:280px;line-height:1.7;" class="en">Egypt's digital platform connecting clients with the most security-verified professionals — fast, trusted, fair.</p>
+        <!-- Social -->
+        <div class="flex gap-3 mt-5">
+        </div>
+      </div>
+
+      <div>
+        <h4 style="font-weight:700;font-size:.85rem;margin-bottom:1rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;"><span class="ar">روابط سريعة</span><span class="en">Quick Links</span></h4>
+        <ul style="display:flex;flex-direction:column;gap:.6rem;">
+          <li><a href="#vision"     class="footer-link"><span class="ar">الرؤية</span><span class="en">Vision</span></a></li>
+          <li><a href="#security"   class="footer-link"><span class="ar">الأمان</span><span class="en">Security</span></a></li>
+          <li><a href="#categories" class="footer-link"><span class="ar">الخدمات</span><span class="en">Services</span></a></li>
+          <li><a href="#process"    class="footer-link"><span class="ar">آلية العمل</span><span class="en">Process</span></a></li>
+          <li><a href="#faq"        class="footer-link">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-weight:700;font-size:.85rem;margin-bottom:1rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;"><span class="ar">تواصل معنا</span><span class="en">Contact</span></h4>
+        <ul style="display:flex;flex-direction:column;gap:.6rem;">
+          <li><a href="mailto:hello@workcrew.eg" class="footer-link">w7dee1281@gmail.com</a></li>
+          <li><a href="tel:+201234567890" class="footer-link" dir="ltr"></a></li>
+          <li><span class="footer-link"><span class="ar">الاقصر ، مصر</span><span class="en">Luxor, Egypt</span></span></li>
+          <li><a href="#" class="footer-link"><span class="ar"</span><span class="en"></span></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 pt-8">
+      <p style="font-size:.8rem;color:rgba(255,255,255,.25);">
+        © 2026 WorkCrew. <span class="ar">جميع الحقوق محفوظة.</span><span class="en">All rights reserved.</span>
+      </p>
+      <p style="font-size:.8rem;color:rgba(255,255,255,.2);">
+        <span class="ar">صُنع بـ ❤️ في مصر</span><span class="en">Made with ❤️ in Egypt</span>
+      </p>
+    </div>
+
   </div>
 </footer>
 
+
+<!-- ══════════════════════════════ JAVASCRIPT ══════════════════════════════ -->
 <script>
-  document.getElementById('joinForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+  /* ── Custom cursor ── */
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.transform  = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    ring.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+  });
 
-    const submitButton = document.getElementById('submitButton');
-    const formMessage = document.getElementById('formMessage');
-    submitButton.disabled = true;
-    submitButton.textContent = 'جار الإرسال...';
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('stuck', window.scrollY > 50));
 
-    // **هام جداً: استبدل هذا الرابط بالرابط الخاص بك**
-    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+  /* ── Mobile menu ── */
+  const mobToggle = document.getElementById('mob-toggle');
+  const mobMenu   = document.getElementById('mob-menu');
+  const mobIcon   = document.getElementById('mob-icon');
+  mobToggle.addEventListener('click', () => {
+    const open = mobMenu.classList.toggle('open');
+    mobIcon.className = open ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-bars text-xl';
+  });
+  function closeMob() {
+    mobMenu.classList.remove('open');
+    mobIcon.className = 'fa-solid fa-bars text-xl';
+  }
 
-    const fullName = document.getElementById('fullName').value;
-    const whatsapp = document.getElementById('whatsapp').value;
-    const specialty = document.getElementById('specialty').value;
-    const userType = document.querySelector('input[name="userType"]:checked').value;
+  /* ── Language toggle ── */
+  const langBtn = document.getElementById('langToggle');
+  langBtn.addEventListener('click', () => {
+    const html = document.documentElement;
+    const isAr = html.getAttribute('lang') === 'ar';
+    html.setAttribute('lang', isAr ? 'en' : 'ar');
+    html.setAttribute('dir', isAr ? 'ltr' : 'rtl');
+    langBtn.textContent = isAr ? 'عربي' : 'EN';
+    document.title = isAr
+      ? 'WorkCrew | Your Expert On-Ground Team in Egypt'
+      : 'وورك كرو | فريقك الميداني الاحترافي في مصر';
+  });
+
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: .12 }).observe
+    ? revealEls.forEach(el => new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+      }, { threshold: .12 }).observe(el))
+    : revealEls.forEach(el => el.classList.add('in'));
+
+  /* ── Survey role toggle ── */
+  let currentRole = 'Client';
+  const btnClient    = document.getElementById('btnClient');
+  const btnPro       = document.getElementById('btnPro');
+  const clientFields = document.getElementById('clientFields');
+  const proFields    = document.getElementById('proFields');
+
+  function toggleRole(role) {
+    currentRole = role;
+    if (role === 'Client') {
+      btnClient.classList.add('active'); btnPro.classList.remove('active');
+      clientFields.classList.remove('hidden'); proFields.classList.add('hidden');
+    } else {
+      btnPro.classList.add('active'); btnClient.classList.remove('active');
+      proFields.classList.remove('hidden'); clientFields.classList.add('hidden');
+    }
+  }
+
+  /* ── Market validation conditional ── */
+  document.querySelectorAll('input[name="marketValidation"]').forEach(r => {
+    r.addEventListener('change', e => {
+      const c = document.getElementById('whyNotContainer');
+      const t = document.getElementById('whyNotReason');
+      if (e.target.value === 'No') { c.classList.remove('hidden'); }
+      else { c.classList.add('hidden'); t.value = ''; }
+    });
+  });
+
+  /* ── FAQ accordion ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── Form Submission + Discord Webhook ── */
+  // ⚠️ REPLACE WITH YOUR REAL DISCORD WEBHOOK URL:
+  const webhookURL = 'https://discord.com/api/webhooks/1495163469115297792/04dC3UsU3g3nig0l1Nd7xAREiOsAE7XPQRJtRxT2YzGmdUQfMcXsi_maPj4AwYIQgQQS';
+
+  document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitBtn  = document.getElementById('submitBtn');
+    const msgEl      = document.getElementById('formMessage');
+    const isAr       = document.documentElement.getAttribute('lang') === 'ar';
+    msgEl.innerHTML  = '';
+
+    /* ─ Validation ─ */
+    const fullName = document.getElementById('fullName').value.trim();
+    if (!fullName) { return showMsg(msgEl, isAr ? '⚠️ يرجى إدخال الاسم الكامل.' : '⚠️ Please enter your full name.', 'error'); }
+
+    let clientServiceVal, clientFactorVal, clientIssuesVal, proSpecialtyVal, proExperienceVal, proConsentVal;
+
+    if (currentRole === 'Client') {
+      clientServiceVal = document.getElementById('clientService').value;
+      if (!clientServiceVal) return showMsg(msgEl, isAr ? '⚠️ يرجى اختيار نوع الخدمة.' : '⚠️ Please select a service category.', 'error');
+      const factors = document.querySelectorAll('input[name="clientFactor"]:checked');
+      if (factors.length === 0) return showMsg(msgEl, isAr ? '⚠️ يرجى اختيار عامل واحد على الأقل.' : '⚠️ Please select at least one important factor.', 'error');
+      clientFactorVal = Array.from(factors).map(f => f.value).join(', ');
+      const issues = document.querySelector('input[name="clientIssues"]:checked');
+      if (!issues) return showMsg(msgEl, isAr ? '⚠️ يرجى الإجابة على سؤال المشاكل.' : '⚠️ Please answer the past issues question.', 'error');
+      clientIssuesVal = issues.value;
+    } else {
+      proSpecialtyVal = document.getElementById('proSpecialty').value;
+      if (!proSpecialtyVal) return showMsg(msgEl, isAr ? '⚠️ يرجى اختيار التخصص.' : '⚠️ Please select your specialty.', 'error');
+      proExperienceVal = document.getElementById('proExperience').value.trim();
+      if (!proExperienceVal) return showMsg(msgEl, isAr ? '⚠️ يرجى إدخال سنوات الخبرة.' : '⚠️ Please enter years of experience.', 'error');
+      const consent = document.querySelector('input[name="proConsent"]:checked');
+      if (!consent) return showMsg(msgEl, isAr ? '⚠️ يرجى تأكيد موافقتك على الفحص الأمني.' : '⚠️ Please confirm background check consent.', 'error');
+      proConsentVal = consent.value;
+    }
+
+    const marketVal = document.querySelector('input[name="marketValidation"]:checked');
+    if (!marketVal) return showMsg(msgEl, isAr ? '⚠️ يرجى الإجابة على سؤال استخدام المنصة.' : '⚠️ Please answer the platform usage question.', 'error');
+    const willUse = marketVal.value;
+
+    const whyNotReason = document.getElementById('whyNotReason').value.trim();
+    if (willUse === 'No' && !whyNotReason) return showMsg(msgEl, isAr ? '⚠️ يرجى كتابة سبب عدم الاستخدام.' : '⚠️ Please tell us why you wouldn\'t use it.', 'error');
+
+    const suggestions = document.getElementById('userSuggestions').value.trim();
+
+    /* ─ Sending state ─ */
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${isAr ? 'جار الإرسال...' : 'Sending...'}`;
+
+    /* ─ Build Discord embed fields ─ */
+    const fields = [
+      { name: '👤 Name | الاسم', value: fullName, inline: true },
+      { name: '🏷️ Role | النوع', value: currentRole, inline: true },
+    ];
+
+    if (currentRole === 'Client') {
+      fields.push({ name: '🛠️ Service | الخدمة', value: clientServiceVal, inline: false });
+      fields.push({ name: '⭐ Priority | الأولوية', value: clientFactorVal, inline: true });
+      fields.push({ name: '⚠️ Past Issues | مشاكل سابقة', value: clientIssuesVal, inline: true });
+    } else {
+      fields.push({ name: '🎓 Specialty | التخصص', value: proSpecialtyVal, inline: false });
+      fields.push({ name: '📅 Experience | الخبرة', value: proExperienceVal + ' Years', inline: true });
+      fields.push({ name: '🔐 BG Check Consent | موافقة أمنية', value: proConsentVal, inline: true });
+    }
+
+    fields.push({ name: '🚀 Will Use Platform? | سيستخدم المنصة؟', value: willUse === 'Yes' ? '✅ Yes | نعم' : willUse === 'Maybe' ? '🤔 Maybe | ربما' : '❌ No | لا', inline: false });
+    if (willUse === 'No') fields.push({ name: '💬 Reason | السبب', value: whyNotReason, inline: false });
+    if (suggestions) fields.push({ name: '💡 Suggestions | اقتراحات', value: suggestions, inline: false });
 
     const payload = {
-      username: "WorkCrew Leads",
-      avatar_url: "https://i.imgur.com/fJtVp5F.png", // WorkCrew Logo
+      username: 'WorkCrew Bot',
+      avatar_url: 'https://i.imgur.com/E017SNN_d.webp?maxwidth=760&fidelity=grand',
       embeds: [{
-        title: "طلب انضمام جديد!",
-        color: 16759552, // Amber Yellow
-        fields: [
-          { name: "الاسم بالكامل", value: fullName, inline: true },
-          { name: "نوع المستخدم", value: userType, inline: true },
-          { name: "رقم الواتساب", value: whatsapp, inline: false },
-          { name: "التخصص/المجال", value: specialty, inline: false },
-        ],
-        footer: {
-          text: `تم الإرسال في: ${new Date().toLocaleString('ar-EG')}`
-        }
+        title: `🆕 New Survey Response — ${currentRole}`,
+        description: `Submitted at **${new Date().toLocaleString('ar-EG')}**`,
+        color: 0xFFBF00,
+        fields,
+        footer: { text: 'WorkCrew Market Validation Survey • وورك كرو' },
+        timestamp: new Date().toISOString()
       }]
     };
 
     try {
-      if (webhookURL === 'YOUR_DISCORD_WEBHOOK_URL') {
-        throw new Error('الرجاء إدخال رابط الـ Webhook الصحيح في الكود.');
-      }
+      if (webhookURL === 'YOUR_DISCORD_WEBHOOK_URL') throw new Error('PLACEHOLDER');
 
-      const response = await fetch(webhookURL, {
+      const res = await fetch(webhookURL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
 
-      if (response.ok) {
-        formMessage.textContent = 'تم إرسال طلبك بنجاح! شكراً لك.';
-        formMessage.style.color = 'green';
-        document.getElementById('joinForm').reset();
+      if (!res.ok) throw new Error('HTTP error');
+
+      showMsg(msgEl, isAr ? '🎉 تم الإرسال بنجاح! شكراً لمشاركتك.' : '🎉 Submitted successfully! Thank you.', 'success');
+      document.getElementById('surveyForm').reset();
+      document.getElementById('whyNotContainer').classList.add('hidden');
+      toggleRole('Client');
+
+    } catch (err) {
+      if (err.message === 'PLACEHOLDER') {
+        // Dev mode: show success with note
+        showMsg(msgEl, isAr
+          ? '🔧 وضع التطوير: البيانات صحيحة. الرجاء إدخال رابط Webhook في الكود لإرسالها.'
+          : '🔧 Dev mode: Data valid. Please set your Webhook URL in the code to enable sending.', 'warn');
       } else {
-        throw new Error('حدث خطأ أثناء الإرسال. حاول مرة أخرى.');
+        showMsg(msgEl, isAr ? '❌ حدث خطأ. حاول مرة أخرى.' : '❌ An error occurred. Please try again.', 'error');
       }
-    } catch (error) {
-      formMessage.textContent = error.message;
-      formMessage.style.color = 'red';
     } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'إرسال';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> ${isAr ? 'إرسال الاستطلاع' : 'Submit Survey'}`;
     }
+  });
+
+  function showMsg(el, text, type) {
+    const colors = { success: '#34d399', error: '#f87171', warn: '#fbbf24' };
+    el.style.color = colors[type] || '#fff';
+    el.textContent = text;
+    el.classList.add('success-pop');
+    setTimeout(() => el.classList.remove('success-pop'), 600);
+  }
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
   });
 </script>
 
